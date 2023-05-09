@@ -14,6 +14,8 @@ You need to install [Violentmonkey][VMLink] or [Tampermonkey][TMLink] first and 
 
 - Install [Videos Per Row Fix][script]
 
+https://user-images.githubusercontent.com/64634605/237004454-ffa0e73b-7b5c-462d-bc03-13f028998bdd.mp4
+
 [script]: https://greasyfork.org/en/scripts/465840-youtube-videos-per-row-fix
 
 [VMLink]: https://violentmonkey.github.io/get-it/#stable-release
