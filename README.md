@@ -12,9 +12,9 @@ Increase the videos per row on all page.
 
 You need to install [Violentmonkey][VMLink] or [Tampermonkey][TMLink] first and then click the install link below.
 
-- Install [Playlist Calculator][script]
+- Install [Videos Per Row Fix][script]
 
-[script]: https://greasyfork.org/en/scripts/465609-youtube-playlist-calculator
+[script]: https://github.com/sapondanaisriwan/youtube-videos-per-row-fix
 
 [VMLink]: https://violentmonkey.github.io/get-it/#stable-release
 [TMLink]: https://www.tampermonkey.net/
