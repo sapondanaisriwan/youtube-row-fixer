@@ -16,7 +16,7 @@
 
 'use strict';
 
-// Thanks so much to CY Fung (https://greasyfork.org/en/users/371179-cy-fung) 
+// Thanks so much to CY Fung (https://greasyfork.org/en/users/371179-cy-fung) for creating the api.
 const videosPerRow = 5
 const target = 'ytd-rich-grid-renderer'
 customYtElements.whenRegistered(target, (proto) => { proto.calcElementsPerRow = () => videosPerRow; });
