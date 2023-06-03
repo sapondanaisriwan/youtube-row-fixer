@@ -4,7 +4,7 @@
 
 Increase the videos per row on all page.
 
-<img src="https://i.imgur.com/ZscgfPo.jpeg" width="100%" />
+<img src="https://i.imgur.com/voScy7m.png" width="100%" />
 
 </div>
 
