@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "YT Videos Per Row Fix",
+  "description": "Hide All YouTube Shorts",
+  "version": "1.0.0",
+  "permissions": ["tabs", "storage"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "run_at": "document_start",
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["content-script.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["js/customElements.js", "js/main.js"],
+      "matches": ["https://www.youtube.com/*"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}

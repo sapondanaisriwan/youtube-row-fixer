@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YT Videos Per Row Fix</title>
+    <link rel="stylesheet" href="./css/popup.css" />
+    <script src="./js/popup.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h4>Videos Per Row Fix v1.0.0</h4>
+      </header>
+      <div class="slider-container">
+        <label>
+          <div class="slider-info">
+            <span>Videos Per Row</span>
+            <span class="video-current-value"></span>
+          </div>
+          <input
+            type="range"
+            min="1"
+            max="15"
+            step="1"
+            required
+            data-videos-range
+          />
+        </label>
+      </div>
+      <div class="slider-container">
+        <label>
+          <div class="slider-info">
+            <span>Shorts Per Row</span>
+            <span class="short-current-value"></span>
+          </div>
+          <input
+            type="range"
+            min="1"
+            max="12"
+            step="1"
+            required
+            data-shorts-range
+          />
+        </label>
+      </div>
+    </main>
+  </body>
+</html>
