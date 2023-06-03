@@ -1,3 +1,5 @@
+// Ugly Code please don't read it 🥲
+
 const selectors = {
   videosRange: "input[data-videos-range]",
   shortsRange: "input[data-shorts-range]",

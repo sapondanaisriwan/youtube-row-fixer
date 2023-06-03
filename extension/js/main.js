@@ -1,31 +1,21 @@
-const ChromeRequest = (() => {
-  let requestId = 0;
+let videosPerRow;
+let shortsPerRow;
+const target = "ytd-rich-grid-renderer";
 
-  function getData(data) {
-    const id = requestId++;
+// Event handler function to handle the received data event
+const handleDataEvent = ({ detail: { data } }) => {
+  videosPerRow = data.videosPerRow;
+  shortsPerRow = data.shortsPerRow;
+};
 
-    return new Promise((resolve, reject) => {
-      const listener = (evt) => {
-        if (evt.detail.requestId === id) {
-          // Deregister self
-          window.removeEventListener("sendChromeData", listener);
-          resolve(evt.detail.data);
-        }
-      };
+// Listen for the sendChromeData event and invoke handleDataEvent
+window.addEventListener("sendRowFixerData", handleDataEvent);
 
-      window.addEventListener("sendChromeData", listener);
+// Dispatch a custom event to get storage data
+window.dispatchEvent(new CustomEvent("getRowFixerData"));
 
-      const payload = { data, id };
-
-      window.dispatchEvent(
-        new CustomEvent("getChromeData", { detail: payload })
-      );
-    });
-  }
-
-  return { getData };
-})();
-
-ChromeRequest.getData("whatever").then((data) => {
-  console.log("Received data:", data);
+customYtElements.whenRegistered(target, (proto) => {
+  proto.calcElementsPerRow = (a, b) => {
+    return a === 154 ? shortsPerRow : videosPerRow;
+  };
 });

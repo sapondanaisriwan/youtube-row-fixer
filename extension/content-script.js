@@ -1,11 +1,14 @@
-let data;
 const browser = chrome || browser;
-const [runtime, storage] = [browser.runtime, browser.storage.sync];
-const settingKeys = ["isEnable", "videosPerRow", "shortsPerRow"];
+const runtime = browser.runtime;
+const storage = browser.storage.sync;
 
+const settingKeys = ["isEnable", "videosPerRow", "shortsPerRow"];
 const config = { childList: true };
 
-const addScript = (src) => {
+let data;
+
+// Function to inject a script into the webpage
+const injectScript = (src) => {
   const script = document.createElement("script");
   script.src = runtime.getURL(src);
   script.type = "text/javascript";
@@ -21,24 +24,28 @@ const addScript = (src) => {
   observer.observe(document.documentElement, config);
 };
 
-const run = async () => {
+/* 
+  Function to send storage data to the injected script.
+  If you have a better way please tell me.
+*/
+const sendStorageData = () => {
+  window.addEventListener("getRowFixerData", async (e) => {
+    console.log(e);
+    const responseData = await storage.get(settingKeys);
+    window.dispatchEvent(
+      new CustomEvent("sendRowFixerData", {
+        detail: { data: responseData },
+      })
+    );
+  });
+};
+
+const runExtension = async () => {
   const { isEnable } = await storage.get(["isEnable"]);
   if (isEnable) {
-    // addScript("./js/customElements.js");
-    addScript("./js/main.js");
+    injectScript("./js/customElements.js");
+    injectScript("./js/main.js");
+    sendStorageData();
   }
 };
-run();
-
-storage.onChanged.addListener(async () => {
-  data = await storage.get(settingKeys);
-});
-
-window.addEventListener("getChromeData", async function (evt) {
-  const responseData = await storage.get(settingKeys);
-  window.dispatchEvent(
-    new CustomEvent("sendChromeData", {
-      detail: { data: responseData, requestId: evt.detail.id },
-    })
-  );
-});
+runExtension();
