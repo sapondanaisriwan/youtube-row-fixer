@@ -1,6 +1,6 @@
 <div align="center">
 
-# Videos Per Row Fix
+# YouTube Row Fixer
 
 Increase the videos per row on all page.
 
