@@ -1,9 +1,11 @@
 const youtubeURL = "https://www.youtube.com/*";
 const browser = chrome || browser;
-const [runtime, storage] = [browser.runtime, browser.storage.sync];
+const runtime = browser.runtime;
+const storage = browser.storage.sync;
 
 const extensionSettings = {
   isEnable: true,
+  hideProfile: false,
   videosPerRow: 6,
   shortsPerRow: 6,
 };

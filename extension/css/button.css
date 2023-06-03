@@ -1,0 +1,28 @@
+#ets-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+#ets-container button {
+  cursor: pointer;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: none;
+  background-image: url("../asset/img/liz-and-the-blue-bird.jpg");
+  background-position: center;
+  background-size: cover;
+  transition: 0.5s;
+}
+
+#ets-container button:hover {
+  transition: 0.5s;
+  transform: scale(1.05);
+}
+
+#ets-container button[aria-pressed="false"] {
+  filter: grayscale(1);
+}

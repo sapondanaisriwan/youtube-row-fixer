@@ -5,14 +5,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>YT Videos Per Row Fix</title>
+
     <link rel="stylesheet" href="./css/popup.css" />
+    <link rel="stylesheet" href="./css/header.css" />
+    <link rel="stylesheet" href="./css/button.css" />
+    <link rel="stylesheet" href="./css/range-slider.css" />
+    <link rel="stylesheet" href="./css/switch-toggle.css" />
+
     <script src="./js/popup.js" defer></script>
   </head>
   <body>
     <main>
       <header>
-        <h4>Videos Per Row Fix v1.0.0</h4>
+        <a
+          href="https://github.com/sapondanaisriwan/youtube-row-fixer"
+          target="_blank"
+        >
+          <img src="./asset/svg/github.svg" alt="github" />
+          <h2>Row Fixer v1.0.0</h2>
+        </a>
       </header>
+      <div id="ets-container">
+        <button type="button" data-extension></button>
+      </div>
+      <label id="toggle">
+        <span
+          class="label-text"
+          tooltip="Hide all channel profile near the videos title."
+          >Hide Channel Profile</span
+        >
+        <div class="toggle-container">
+          <input type="checkbox" id="hide-ch-profile" />
+          <span class="toggle-switch"></span>
+        </div>
+      </label>
       <div class="slider-container">
         <label>
           <div class="slider-info">

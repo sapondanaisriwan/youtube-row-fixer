@@ -14,8 +14,10 @@ window.addEventListener("sendRowFixerData", handleDataEvent);
 // Dispatch a custom event to get storage data
 window.dispatchEvent(new CustomEvent("getRowFixerData"));
 
-customYtElements.whenRegistered(target, (proto) => {
-  proto.calcElementsPerRow = (a, b) => {
-    return a === 154 ? shortsPerRow : videosPerRow;
-  };
-});
+if (customYtElements) {
+  customYtElements.whenRegistered(target, (proto) => {
+    proto.calcElementsPerRow = (a, b) => {
+      return a === 154 ? shortsPerRow : videosPerRow;
+    };
+  });
+}

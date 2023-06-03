@@ -26,30 +26,6 @@ main {
   margin-inline: auto;
 }
 
-h4 {
-  text-align: center;
-  font-size: 16px;
-  font-weight: 600;
-}
-
 span {
   font-size: 14px;
-}
-
-input[type="range"] {
-  width: 100%;
-}
-
-.slider-container {
-  padding: 8px 16px;
-  margin-top: 8px;
-  border-radius: 4px;
-  background-color: var(--bg-black-100);
-}
-
-.slider-info {
-  display: flex;
-  user-select: none;
-  justify-content: space-between;
-  margin-bottom: 4px;
 }
