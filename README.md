@@ -4,22 +4,37 @@
 
 Increase the videos per row on all page.
 
+[![Star][star-badge]][star]
+[![Forks][fork-badge]][members]
+[![MIT License][mit-badge]](./LICENSE)
+
 <img src="https://i.imgur.com/voScy7m.png" width="100%" />
 
 </div>
 
-## 📂 Installation
+[star]: https://github.com/sapondanaisriwan/youtube-row-fixer/stargazers
+[members]: https://github.com/sapondanaisriwan/youtube-row-fixer/network/members
+[star-badge]: https://img.shields.io/github/stars/sapondanaisriwan/youtube-row-fixer
+[fork-badge]: https://img.shields.io/github/forks/sapondanaisriwan/youtube-row-fixer?style=flat-square
+[mit-badge]: https://img.shields.io/badge/License-MIT-green.svg
 
-You need to install [Violentmonkey][VMLink] or [Tampermonkey][TMLink] first and then click the install link below.
+## 📷 Screenshot
 
-- Install [Videos Per Row Fix][script]
+| **Before** | **After** |
+| :--------: | :-------: |
+|  ![][b1]   |  ![][a1]  |
 
-https://user-images.githubusercontent.com/64634605/237004454-ffa0e73b-7b5c-462d-bc03-13f028998bdd.mp4
+[b1]: https://i.imgur.com/COpwwUV.png
+[a1]: https://i.imgur.com/XhBk3hF.png
+
+## ⬇️ Download
+
+- [Chrome Extension][extension]
+- [Userscript][script]
+
+[extension]: https://chrome.google.com/webstore/detail/youtube-row-fixer/kehjfphhkfppnnjhdfhanmehkegdppho
 
 [script]: https://greasyfork.org/en/scripts/465840-youtube-videos-per-row-fix
-
-[VMLink]: https://violentmonkey.github.io/get-it/#stable-release
-[TMLink]: https://www.tampermonkey.net/
 
 ## 🧑‍💻 Contributing
 
