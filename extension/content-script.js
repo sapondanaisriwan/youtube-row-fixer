@@ -9,6 +9,7 @@ const styles = {
   hideProfile: {
     id: "hide-ch-profile",
     css: `
+    .channel-avatar.ytd-ghost-grid-renderer,
     #home-page-skeleton .channel-avatar {
         display: none;
     }
