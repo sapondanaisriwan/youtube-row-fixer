@@ -20,6 +20,14 @@ const styles = {
     `,
   },
 };
+const scripts = {
+  customElementId: "row-fixer-custom-element",
+  mainId: "row-fixer-main",
+};
+const msg = {
+  ytRowFixerStyle: "[YT Row Fixer Style]",
+  ytRowFixerScript: "[YT Row Fixer Script]",
+};
 
 // Function to remove DOM element
 const removeEle = (id) => {
@@ -28,17 +36,23 @@ const removeEle = (id) => {
 };
 
 // Function to inject a script into the webpage
-const injectScript = (src) => {
+const injectScript = (src, id) => {
   const script = document.createElement("script");
   script.src = runtime.getURL(src);
   script.type = "text/javascript";
-  script.id = "yt-row-fixer";
+  script.id = id;
+
+  if (document.body) {
+    document.body.appendChild(script);
+    console.log(`${msg.ytRowFixerScript} ${id} was Injected`);
+    return;
+  }
 
   const observer = new MutationObserver((mutations, observer) => {
     if (document.body) {
-      observer.disconnect();
       document.body.appendChild(script);
-      console.log("Script Injected");
+      console.log(`${msg.ytRowFixerScript} ${id} was Injected`);
+      observer.disconnect();
     }
   });
   observer.observe(document.documentElement, config);
@@ -54,7 +68,7 @@ const injectStyle = (id, css) => {
   style.id = id;
   style.textContent = css;
   document.documentElement.appendChild(style);
-  console.log("CSS Injected");
+  console.log(`${msg.ytRowFixerStyle} ${id} was Injected`);
 };
 
 const menuChanges = async () => {
@@ -100,8 +114,8 @@ const initStyles = async () => {
 };
 
 const initScripts = () => {
-  injectScript("./js/customElements.js");
-  injectScript("./js/main.js");
+  injectScript("./js/customElements.js", scripts.customElementId);
+  injectScript("./js/main.js", scripts.mainId);
   sendStorageData();
 };
 
