@@ -27,47 +27,67 @@ SOFTWARE.
 const customYtElements = (function () {
   "use strict";
 
-  const postRegistered = (ytElmTag, f) => {
-    const ceElmConstrcutor = customElements.get(ytElmTag);
-    const proto = (ceElmConstrcutor || 0).prototype || 0;
-    if (proto && "__hasRegisterFinished" in proto) {
-      f(proto);
-    } else if (proto && "_registered" in proto) {
-      postRegistered_(proto).push(f);
-    } else {
-      console.warn("[tyt] postRegistered is not supported.");
-    }
-  };
-
-  const injectorCreationForRegistered = (mMapOfFuncs, _registered) => {
-    if (!(mMapOfFuncs instanceof WeakMap) || typeof _registered !== "function")
+  const injectorCreationForRegistered = (fnHandler) => {
+    let mMapOfFuncs = new WeakMap();
+    if (!(mMapOfFuncs instanceof WeakMap) || typeof fnHandler !== "function")
       return console.error("[ytI] Incorrect parameters");
     const $callee = function (...args) {
-      const map = mMapOfFuncs;
-      const f = _registered;
+      const f = fnHandler;
       if (!f) return console.error("[ytI] the injector is already destroyed.");
-      // CE prototype have not yet been "Object.defineProperties()"
-      let res = f.call(this, ...args); // normally shall be undefined with no arguments
-      // CE prototype have been "Object.defineProperties()"
+
+      const isControllerExtraction =
+        typeof this.forwardMethods === "function" &&
+        typeof this._registered === "undefined";
+      const isComponentRegister =
+        typeof this._registered === "function" &&
+        typeof this.forwardMethods === "undefined";
+      let warning = "";
+      if (isControllerExtraction) {
+        if (typeof this.inst !== "object") {
+          warning +=
+            "[ytI] Controller Extraction is enabled but the corresponding instance is not found.\n";
+        }
+      } else if (isComponentRegister) {
+        //
+      } else {
+        warning += "[ytI] customYtElement's definition is undefined.\n";
+      }
+      const fnTag = f.__ytHandlerFuncName__;
+      if (isControllerExtraction && fnTag !== "forwardMethods") {
+        warning +=
+          "[ytI] Unknown Error in injectorCreationForRegistered. (0x3F01)\n";
+      }
+      if (isComponentRegister && fnTag !== "_registered") {
+        warning +=
+          "[ytI] Unknown Error in injectorCreationForRegistered. (0x3F02)\n";
+      }
+      const map = mMapOfFuncs;
+      // CE prototype has not yet been "Object.defineProperties()"
+      const res = f.call(this, ...args); // normally shall be undefined with no arguments
+      // CE prototype has been "Object.defineProperties()"
       let funcs = null;
       try {
+        if (warning) throw warning.trim();
         const constructor = this.constructor || null;
         if (!constructor || !constructor.prototype)
           throw "[ytI] CE constructor is not found or invalid.";
-        // constructor.prototype._registered = f; // restore to original
-        delete constructor.prototype._registered;
-        if (constructor.prototype._registered !== f) {
-          constructor.prototype._registered = f;
+        // constructor.prototype.${fnTag} = f; // restore to original
+        delete constructor.prototype[fnTag];
+        if (constructor.prototype[fnTag] !== f) {
+          constructor.prototype[fnTag] = f;
         }
         funcs = map.get(constructor) || 0;
         if (typeof funcs.length !== "number")
           throw "[ytI] This injection function call is invalid.";
         console.debug(
-          `[ytI] ${constructor.prototype.is}'s _registered have been called.`
+          `[ytI] ${constructor.prototype.is}'s ${fnTag} has been called.`
         );
         map.set(constructor, null); // invalidate
+        const proto = isControllerExtraction
+          ? this.inst.constructor.prototype
+          : constructor.prototype;
         for (const func of funcs) {
-          func(constructor.prototype); // developers might implement Promise, setTimeout, or requestAnimation inside the `func`.
+          func(proto); // developers might implement Promise, setTimeout, or requestAnimation inside the `func`.
         }
       } catch (e) {
         console.warn(e);
@@ -76,24 +96,105 @@ const customYtElements = (function () {
       }
       return res;
     };
+    $callee.__ytHandlerFuncName__ = fnHandler.__ytHandlerFuncName__;
     $callee.getMap = () => mMapOfFuncs; // for external
-    $callee.getOriginalFunction = () => _registered; // for external
+    $callee.getOriginalFunction = () => fnHandler; // for external
     $callee.destroyObject = function () {
       // in addition to GC
       mMapOfFuncs = null; // WeakMap does not require clear()
-      _registered = null;
+      fnHandler = null;
       this.__injector__ = null;
       this.getMap = null;
       this.getOriginalFunction = null;
       this.destroyObject = null;
     };
-    // after all injected _registered are called,
-    // customElements.get('ytd-watch-flexy').prototype._registered.__injector__.deref() will become undefined.
+    // after all injected ${fnHandler} are called,
+    // customElements.get('ytd-watch-flexy').prototype.${fnHandler}.__injector__.deref() will become undefined.
     const wrapped =
       typeof WeakRef === "function" ? new WeakRef($callee) : $callee;
-    $callee.__injector__ = wrapped; // for _registered.__injector__
+    $callee.__injector__ = wrapped; // for ${fnHandler}.__injector__
     return $callee;
   };
+
+  const injectionPool = (ceProto, fnTag, actionFn) => {
+    // delay prototype injection
+    if (!(fnTag in ceProto))
+      return console.warn(`[ytI] no ${fnTag} is found in proto`);
+    const fnHandler = ceProto[fnTag]; // make a copy in this nested closure.
+    if (typeof fnHandler !== "function")
+      return console.warn(`[ytI] proto.${fnTag} is not a function`);
+    let injector = null;
+    if ((injector = fnHandler.__injector__)) {
+      if (injector.deref) injector = injector.deref(); // null if ${fnTag} of all CEs are restored.
+    }
+    if (
+      typeof fnHandler.__ytHandlerFuncName__ === "string" &&
+      fnHandler.__ytHandlerFuncName__ !== fnTag
+    ) {
+      return console.warn(
+        `[ytI] Injection Function Tag Mismatched: ${fnHandler.__ytHandlerFuncName__} & ${fnTag}`
+      );
+    }
+    if (!injector) {
+      fnHandler.__ytHandlerFuncName__ = fnTag;
+      injector = injectorCreationForRegistered(fnHandler);
+      // injector.__ytHandlerFuncName__ = fnTag;
+      fnHandler.__injector__ = injector.__injector__;
+    } else if (
+      typeof injector.__ytHandlerFuncName__ === "string" &&
+      injector.__ytHandlerFuncName__ !== fnTag
+    ) {
+      return console.warn(
+        `[ytI] Injected Function Tag Mismatched: ${injector.__ytHandlerFuncName__} & ${fnTag}`
+      );
+    }
+    if (typeof (injector || 0).getMap !== "function")
+      return console.warn("[ytI] the injector function is invalid.");
+    const mapOfFuncs = injector.getMap();
+    const ceConstructor = ceProto.constructor || null;
+    if (!ceConstructor)
+      return console.warn("[ytI] no constructor is found in proto");
+    let funcs;
+    if (!mapOfFuncs.has(ceConstructor)) {
+      mapOfFuncs.set(ceConstructor, (funcs = []));
+      ceProto[fnTag] = injector;
+    } else {
+      funcs = mapOfFuncs.get(ceConstructor);
+    }
+    if (!funcs)
+      return console.warn(
+        `[ytI] ${fnTag} has already called. You can just override the properties.`
+      );
+    funcs.push(actionFn);
+  };
+
+  const postRegistered = (ytElmTag, f) => {
+    const ceElmConstrcutor = customElements.get(ytElmTag);
+    const proto = (ceElmConstrcutor || 0).prototype || 0;
+    if (proto && "forwardMethods" in proto && !("_registered" in proto)) {
+      // under controller extraction, the register mechanism is different
+      // register is not done in first initialization
+      const createdElement = document.querySelector(ytElmTag);
+      const inst = (createdElement || 0).inst;
+      if (inst) {
+        f(inst.constructor.prototype);
+      } else {
+        injectionPool(proto, "forwardMethods", f);
+      }
+    } else if (proto && "__hasRegisterFinished" in proto) {
+      f(proto);
+    } else if (
+      proto &&
+      "_registered" in proto &&
+      !("forwardMethods" in proto)
+    ) {
+      injectionPool(proto, "_registered", f);
+    } else {
+      console.warn("[ytI] postRegistered is not supported.");
+    }
+  };
+
+  const EVENT_KEY_ON_REGISTRY_READY = "ytI-ce-registry-created";
 
   const customYtElements = {
     whenRegistered(ytElmTag, immediateCallback) {
@@ -118,41 +219,48 @@ const customYtElements = (function () {
           : customElements.whenDefined(ytElmTag).then(ceReady);
       });
     },
-  };
-
-  const postRegistered_ = (ceProto) => {
-    // delay prototype injection
-    if (!("_registered" in ceProto))
-      return console.warn("[ytI] no _registered is found in proto");
-    const _registered = ceProto._registered; // make a copy in this nested closure.
-    if (typeof _registered !== "function")
-      return console.warn("[ytI] proto._registered is not a function");
-    let injector = null;
-    if ((injector = _registered.__injector__)) {
-      if (injector.deref) injector = injector.deref(); // null if _registered of all CEs are restored.
-    }
-    if (!injector) {
-      injector = injectorCreationForRegistered(new WeakMap(), _registered);
-      _registered.__injector__ = injector.__injector__;
-    }
-    if (typeof (injector || 0).getMap !== "function")
-      return console.warn("[ytI] the injector function is invalid.");
-    const mapOfFuncs = injector.getMap();
-    const ceConstructor = ceProto.constructor || null;
-    if (!ceConstructor)
-      return console.warn("[ytI] no constructor is found in proto");
-    let funcs;
-    if (!mapOfFuncs.has(ceConstructor)) {
-      mapOfFuncs.set(ceConstructor, (funcs = []));
-      ceProto._registered = injector;
-    } else {
-      funcs = mapOfFuncs.get(ceConstructor);
-    }
-    if (!funcs)
-      return console.warn(
-        "[ytI] _registered has already called. You can just override the properties."
-      );
-    return funcs;
+    onRegistryReady(callback) {
+      if (typeof customElements === "undefined") {
+        if (!("__CE_registry" in document)) {
+          // https://github.com/webcomponents/polyfills/
+          Object.defineProperty(document, "__CE_registry", {
+            get() {
+              // return undefined
+            },
+            set(nv) {
+              if (typeof nv == "object") {
+                delete this.__CE_registry;
+                this.__CE_registry = nv;
+                this.dispatchEvent(
+                  new CustomEvent(EVENT_KEY_ON_REGISTRY_READY)
+                );
+              }
+              return true;
+            },
+            enumerable: false,
+            configurable: true,
+          });
+        }
+        let eventHandler = (evt) => {
+          this.removeEventListener(
+            EVENT_KEY_ON_REGISTRY_READY,
+            eventHandler,
+            false
+          );
+          const f = callback;
+          callback = null;
+          eventHandler = null;
+          f();
+        };
+        document.addEventListener(
+          EVENT_KEY_ON_REGISTRY_READY,
+          eventHandler,
+          false
+        );
+      } else {
+        callback();
+      }
+    },
   };
 
   // Export to external environment
@@ -160,6 +268,11 @@ const customYtElements = (function () {
     window.customYtElements = customYtElements;
   } catch (error) {
     /* for Greasemonkey */
+  }
+  try {
+    module.customYtElements = customYtElements;
+  } catch (error) {
+    /* for CommonJS */
   }
 
   return customYtElements;
