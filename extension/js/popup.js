@@ -9,7 +9,12 @@ const selectors = {
   shortCurValue: ".short-current-value",
 };
 
-const settingKeys = ["isEnable", "hideProfile", "videosPerRow", "shortsPerRow"];
+const settingKeys = [
+  "isEnable",
+  "hideProfile",
+  "videosPerRow",
+  "shelfItemsPerRow",
+];
 
 const browser = chrome || browser;
 const [runtime, storage] = [browser.runtime, browser.storage.sync];
@@ -30,7 +35,6 @@ const reloadTabs = async () => {
   tabs.forEach((tab) => browser.tabs.reload(tab.id));
 };
 
-
 const updateRangeVal = (ele, val) => (ele.value = val);
 
 const updateVal = (ele, val, key) => {
@@ -42,7 +46,7 @@ extensionToggle.addEventListener("click", ({ target }) => {
   storage.set({ isEnable: target.ariaPressed == "true" ? false : true });
   target.setAttribute(
     "aria-pressed",
-    target.ariaPressed == "true" ? "false" : "true"
+    target.ariaPressed == "true" ? false : true
   );
   reloadTabs();
 });
@@ -72,7 +76,7 @@ shortsRangeEle.addEventListener("wheel", (e) => {
 });
 
 const run = async () => {
-  const { isEnable, hideProfile, videosPerRow, shortsPerRow } =
+  const { isEnable, hideProfile, videosPerRow, shelfItemsPerRow } =
     await checkSetting();
 
   extensionToggle.setAttribute("aria-pressed", isEnable);
@@ -80,8 +84,8 @@ const run = async () => {
 
   updateVal(videoValue, videosPerRow, settingKeys[2]);
   updateRangeVal(videosRangeEle, videosPerRow);
-  updateVal(shortValue, shortsPerRow, settingKeys[3]);
-  updateRangeVal(shortsRangeEle, shortsPerRow);
+  updateVal(shortValue, shelfItemsPerRow, settingKeys[3]);
+  updateRangeVal(shortsRangeEle, shelfItemsPerRow);
 };
 
 run();

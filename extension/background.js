@@ -3,17 +3,18 @@ const browser = chrome || browser;
 const runtime = browser.runtime;
 const storage = browser.storage.sync;
 
-const extensionSettings = {
+const defaultSettings = {
   isEnable: true,
   hideProfile: false,
   videosPerRow: 6,
-  shortsPerRow: 6,
+  shelfItemsPerRow: 12,
 };
 
 // https://developer.chrome.com/docs/extensions/reference/runtime/#event-onInstalled
 runtime.onInstalled.addListener(({ reason }) => {
   if (reason === "install" || reason === "update") {
-    storage.set(extensionSettings);
+    storage.clear();
+    storage.set(defaultSettings);
     reloadTabs();
     fetchAllStorage();
   }

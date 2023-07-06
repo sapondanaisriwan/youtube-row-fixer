@@ -1,10 +1,11 @@
-const browser = chrome || browser;
-const runtime = browser.runtime;
-const storage = browser.storage.sync;
-
 let data;
 const config = { childList: true };
-const settingKeys = ["isEnable", "hideProfile", "videosPerRow", "shortsPerRow"];
+const settingKeys = [
+  "isEnable",
+  "hideProfile",
+  "videosPerRow",
+  "shelfItemsPerRow",
+];
 const styles = {
   hideProfile: {
     id: "hide-ch-profile",
@@ -114,8 +115,7 @@ const initStyles = async () => {
 };
 
 const initScripts = () => {
-  injectScript("./js/customElements.js", scripts.customElementId);
-  injectScript("./js/main.js", scripts.mainId);
+  injectScript("js/main.js", scripts.mainId);
   sendStorageData();
 };
 
