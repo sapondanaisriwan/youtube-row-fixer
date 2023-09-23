@@ -106,8 +106,8 @@ const initStyles = async () => {
   #home-page-skeleton .rich-grid-media-skeleton,
   #home-page-skeleton .rich-shelf-videos .rich-grid-media-skeleton.mini-mode,
   #home-page-skeleton #home-container-media .rich-grid-media-skeleton.mini-mode {
-    min-width: calc(100% / ${videosPerRow} - 1.6rem);
-    max-width: calc(100% / ${videosPerRow} - 1.6rem);
+    min-width: calc(100% / ${videosPerRow} - 1.6rem) !important;
+    max-width: calc(100% / ${videosPerRow} - 1.6rem) !important;
   }
   `
   );
