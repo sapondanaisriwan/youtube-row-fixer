@@ -2,6 +2,7 @@
 
 ### v1.0.3
 - Fixed [#7] not working with skeleton element.
+
 [#7]: https://github.com/sapondanaisriwan/youtube-row-fixer/issues/7
 
 ### v1.0.1
