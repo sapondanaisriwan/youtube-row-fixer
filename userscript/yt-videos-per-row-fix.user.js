@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        YouTube Row Fixer
-// @version     1.0.1
+// @version     1.0.2
 // @author      sapondanaisriwan
 // @description Increase the videos per row on all page.
 // @match       https://www.youtube.com/*
@@ -11,7 +11,9 @@
 // @namespace   https://greasyfork.org/en/users/1021085-sapondanaisriwan
 // @homepageURL https://github.com/sapondanaisriwan/youtube-videos-per-row-fix
 // @supportURL  https://github.com/sapondanaisriwan/youtube-videos-per-row-fix/issues
-// @require     https://greasyfork.org/scripts/465819-api-for-customelements-in-youtube/code/API%20for%20CustomElements%20in%20YouTube.js?version=1215125
+// @require https://update.greasyfork.org/scripts/465819/1289214/API%20for%20CustomElements%20in%20YouTube.js
+// @downloadURL https://update.greasyfork.org/scripts/465840/YouTube%20Row%20Fixer.user.js
+// @updateURL https://update.greasyfork.org/scripts/465840/YouTube%20Row%20Fixer.meta.js
 // ==/UserScript==
 
 /*
@@ -29,7 +31,7 @@ Support me: https://ko-fi.com/sapondanaisriwan
 // Thanks so much to CY Fung (https://greasyfork.org/en/users/371179-cy-fung) for helping me.
 const settings = {
   VIDEO_PER_ROW: 6,
-  SHELF_ITEM_PER_ROW: 12, // Max is 12
+  SHELF_ITEM_PER_ROW: 9, // Max is 9
   HIDE_PROFILE: true,
 };
 
@@ -55,8 +57,8 @@ const styles = {
     #home-page-skeleton .rich-grid-media-skeleton,
     #home-page-skeleton .rich-shelf-videos .rich-grid-media-skeleton.mini-mode,
     #home-page-skeleton #home-container-media .rich-grid-media-skeleton.mini-mode {
-      min-width: calc(100% / ${settings.VIDEO_PER_ROW} - 1.6rem);
-      max-width: calc(100% / ${settings.VIDEO_PER_ROW} - 1.6rem);
+      min-width: calc(100% / ${settings.VIDEO_PER_ROW} - 1.6rem) !important;
+      max-width: calc(100% / ${settings.VIDEO_PER_ROW} - 1.6rem) !important;
     }
     `,
   },
