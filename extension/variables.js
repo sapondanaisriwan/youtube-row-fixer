@@ -6,5 +6,5 @@ const defaultSettings = {
   isEnable: true,
   hideProfile: false,
   videosPerRow: 6,
-  shelfItemsPerRow: 12,
+  shelfItemsPerRow: 9,
 };

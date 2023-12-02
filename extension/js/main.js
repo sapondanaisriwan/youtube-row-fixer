@@ -24,7 +24,7 @@ SOFTWARE.
 
 */
 
-const customYtElements = (function () {
+var customYtElements = (function () {
   "use strict";
 
   const injectorCreationForRegistered = (fnHandler) => {
@@ -41,13 +41,25 @@ const customYtElements = (function () {
       const isComponentRegister =
         typeof this._registered === "function" &&
         typeof this.forwardMethods === "undefined";
+      const isSinkWrapper =
+        typeof this.createElement === "function" &&
+        typeof this._registered === "undefined" &&
+        typeof this.forwardMethods === "undefined";
       let warning = "";
+
+      const map = mMapOfFuncs;
+      // CE prototype has not yet been "Object.defineProperties()"
+      const res = f.call(this, ...args); // normally shall be undefined with no arguments
+      // CE prototype has been "Object.defineProperties()"
+      // "polymerController" has been added to "this".
+
+      let polymerController = this.polymerController || this.inst || false;
       if (isControllerExtraction) {
-        if (typeof this.inst !== "object") {
+        if (typeof polymerController !== "object") {
           warning +=
             "[ytI] Controller Extraction is enabled but the corresponding instance is not found.\n";
         }
-      } else if (isComponentRegister) {
+      } else if (isComponentRegister || isSinkWrapper) {
         //
       } else {
         warning += "[ytI] customYtElement's definition is undefined.\n";
@@ -61,10 +73,10 @@ const customYtElements = (function () {
         warning +=
           "[ytI] Unknown Error in injectorCreationForRegistered. (0x3F02)\n";
       }
-      const map = mMapOfFuncs;
-      // CE prototype has not yet been "Object.defineProperties()"
-      const res = f.call(this, ...args); // normally shall be undefined with no arguments
-      // CE prototype has been "Object.defineProperties()"
+      if (isSinkWrapper && fnTag !== "createElement") {
+        warning +=
+          "[ytI] Unknown Error in injectorCreationForRegistered. (0x3F03)\n";
+      }
       let funcs = null;
       try {
         if (warning) throw warning.trim();
@@ -83,8 +95,8 @@ const customYtElements = (function () {
           `[ytI] ${constructor.prototype.is}'s ${fnTag} has been called.`
         );
         map.set(constructor, null); // invalidate
-        const proto = isControllerExtraction
-          ? this.inst.constructor.prototype
+        const proto = polymerController
+          ? polymerController.constructor.prototype
           : constructor.prototype;
         for (const func of funcs) {
           func(proto); // developers might implement Promise, setTimeout, or requestAnimation inside the `func`.
@@ -171,25 +183,44 @@ const customYtElements = (function () {
   const postRegistered = (ytElmTag, f) => {
     const ceElmConstrcutor = customElements.get(ytElmTag);
     const proto = (ceElmConstrcutor || 0).prototype || 0;
+
+    let method = 0;
+
     if (proto && "forwardMethods" in proto && !("_registered" in proto)) {
-      // under controller extraction, the register mechanism is different
-      // register is not done in first initialization
-      const createdElement = document.querySelector(ytElmTag);
-      const inst = (createdElement || 0).inst;
-      if (inst) {
-        f(inst.constructor.prototype);
-      } else {
-        injectionPool(proto, "forwardMethods", f);
-      }
+      method = "forwardMethods";
     } else if (proto && "__hasRegisterFinished" in proto) {
       f(proto);
     } else if (
       proto &&
       "_registered" in proto &&
-      !("forwardMethods" in proto)
+      !("forwardMethods" in proto) &&
+      !("createElement" in proto)
     ) {
       injectionPool(proto, "_registered", f);
+    } else if (
+      proto &&
+      "createElement" in proto &&
+      !("_registered" in proto) &&
+      !("forwardMethods" in proto)
+    ) {
+      // polymer_enable_sink_wrapper = true
+      method = "createElement";
     } else {
+      method = -1;
+    }
+
+    if (typeof method === "string") {
+      // under controller extraction, the register mechanism is different
+      // register is not done in first initialization
+      const createdElement = document.querySelector(ytElmTag) || 0;
+      const polymerController =
+        createdElement.polymerController || createdElement.inst || false;
+      if (typeof polymerController === "object") {
+        f(polymerController.constructor.prototype);
+      } else {
+        injectionPool(proto, method, f);
+      }
+    } else if (method < 0) {
       console.warn("[ytI] postRegistered is not supported.");
     }
   };
@@ -242,7 +273,7 @@ const customYtElements = (function () {
           });
         }
         let eventHandler = (evt) => {
-          this.removeEventListener(
+          document.removeEventListener(
             EVENT_KEY_ON_REGISTRY_READY,
             eventHandler,
             false
@@ -264,16 +295,16 @@ const customYtElements = (function () {
   };
 
   // Export to external environment
-  try {
-    window.customYtElements = customYtElements;
-  } catch (error) {
-    /* for Greasemonkey */
-  }
-  try {
-    module.customYtElements = customYtElements;
-  } catch (error) {
-    /* for CommonJS */
-  }
+  // try {
+  //   window.customYtElements = customYtElements;
+  // } catch (error) {
+  //   /* for Greasemonkey */
+  // }
+  // try {
+  //   module.customYtElements = customYtElements;
+  // } catch (error) {
+  //   /* for CommonJS */
+  // }
 
   return customYtElements;
 })();

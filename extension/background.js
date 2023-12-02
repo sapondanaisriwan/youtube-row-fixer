@@ -7,7 +7,7 @@ const defaultSettings = {
   isEnable: true,
   hideProfile: false,
   videosPerRow: 6,
-  shelfItemsPerRow: 12,
+  shelfItemsPerRow: 9,
 };
 
 // https://developer.chrome.com/docs/extensions/reference/runtime/#event-onInstalled

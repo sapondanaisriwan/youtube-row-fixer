@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "YouTube Row Fixer",
   "description": "The chrome extension for Increasing the videos per row.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "permissions": ["tabs", "storage"],
   "action": {
     "default_popup": "popup.html"
