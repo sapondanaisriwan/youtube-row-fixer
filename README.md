@@ -2,13 +2,13 @@
 
 # YouTube Row Fixer
 
-Increase the videos per row on all page.
+For customizing the videos per row.
 
 [![Star][star-badge]][star]
 [![Forks][fork-badge]][members]
 [![MIT License][mit-badge]](./LICENSE)
 
-<img src="https://i.imgur.com/voScy7m.png" width="100%" />
+<img src="https://github.com/sapondanaisriwan/youtube-row-fixer/assets/64634605/c64881a9-2684-4de7-ad75-3c7c1981f7d3" width="100%" />
 
 </div>
 
