@@ -3,13 +3,13 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@nextui-org/react';
-import React from 'react';
-import { RxGear, RxExternalLink } from 'react-icons/rx';
-import SwitchControl from '../ui/SwitchControl';
-import { KeyExtensionStatus } from '../../data/storage-key';
-import { ThemeSwitcher } from './ThemeSwitcher';
-import HorizontalLine from '../ui/HorizontalLine';
+} from "@nextui-org/react";
+import React from "react";
+import { RxGear, RxExternalLink } from "react-icons/rx";
+import SwitchControl from "../ui/SwitchControl";
+import { KeyExtensionStatus } from "../../data/storage-key";
+import { ThemeSwitcher } from "./ThemeSwitcher";
+import HorizontalLine from "../ui/HorizontalLine";
 
 function ExtensionSetting() {
   return (

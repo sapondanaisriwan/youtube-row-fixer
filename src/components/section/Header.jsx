@@ -1,14 +1,16 @@
-import { Navbar, NavbarBrand, NavbarContent } from '@nextui-org/react';
-import ExtensionSetting from './ExtensionSetting';
-import Logo from '../icon/logo';
-
+import { Navbar, NavbarBrand, NavbarContent } from "@nextui-org/react";
+import ExtensionSetting from "./ExtensionSetting";
+import Logo from "../icon/logo";
 
 function Header() {
   return (
-
     <Navbar className="dark:bg-content2">
       <NavbarBrand className="gap-2">
-        <a href="https://github.com/sapondanaisriwan/youtube-row-fixer" target='_blank' className="flex items-center gap-2">
+        <a
+          href="https://github.com/sapondanaisriwan/youtube-row-fixer"
+          target="_blank"
+          className="flex items-center gap-2"
+        >
           <h4>
             <Logo />
           </h4>

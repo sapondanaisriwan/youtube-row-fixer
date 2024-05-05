@@ -21,7 +21,7 @@ export const settingKey = [
 export const defaultSetting = {
   [KeyExtensionStatus]: true,
   [KeyExtensionTheme]: true,
-  
+
   [KeyHideChannelProfile]: true,
   [KeyDisplayFullTitle]: false,
   [KeyVideoPerRow]: 5,

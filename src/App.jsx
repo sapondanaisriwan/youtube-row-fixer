@@ -1,12 +1,11 @@
 import { NextUIProvider } from "@nextui-org/react";
-import { ThemeProvider as NextThemesProvider } from 'next-themes';
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { useEffect, useState } from "react";
 import Container from "./components/ui/Container";
 import Main from "./components/section/Main";
 import Header from "./components/section/Header";
 
 function App() {
-
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

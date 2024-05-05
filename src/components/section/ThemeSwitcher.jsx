@@ -1,8 +1,8 @@
-import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
-import { RiMoonFill, RiSunFill } from 'react-icons/ri';
-import { KeyExtensionTheme } from '../../data/storage-key';
-import SwitchControl from '../ui/SwitchControl';
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import { RiMoonFill, RiSunFill } from "react-icons/ri";
+import { KeyExtensionTheme } from "../../data/storage-key";
+import SwitchControl from "../ui/SwitchControl";
 
 export function ThemeSwitcher() {
   const [mounted, setMounted] = useState(false);
@@ -15,8 +15,8 @@ export function ThemeSwitcher() {
   if (!mounted) return null;
 
   const handleChange = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark')
-  } 
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
 
   return (
     <SwitchControl

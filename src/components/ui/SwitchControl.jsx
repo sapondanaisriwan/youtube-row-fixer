@@ -2,8 +2,15 @@ import { Switch, cn } from "@nextui-org/react";
 import { useStorageState } from "../../hooks/useStorage";
 import HorizontalLine from "./HorizontalLine";
 
-function SwitchControl({ label, storageKey, color, thumbIconOn,
-  thumbIconOff, onChange, borderBottom }) {
+function SwitchControl({
+  label,
+  storageKey,
+  color,
+  thumbIconOn,
+  thumbIconOff,
+  onChange,
+  borderBottom,
+}) {
   const [selected, setSelected, isLoaded] = useStorageState(storageKey);
 
   return (
