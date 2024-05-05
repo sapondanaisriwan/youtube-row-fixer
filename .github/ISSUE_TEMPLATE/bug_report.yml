@@ -1,0 +1,19 @@
+name: Bug report 🐛
+description: Create a report to help us improve.
+title: "[Bug]: "
+labels: ["bug"]
+assignees:
+  - sapondanaisriwan
+body:
+  - type: textarea
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+      placeholder: A bug happened! 💀
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem.
+      placeholder: Paste the image here.
