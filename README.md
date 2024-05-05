@@ -38,7 +38,7 @@ For customizing the videos per row.
 
 ## 🧑‍💻 Contributing
 
-Any contribution is greatly appreciated.
+Any contribution is greatly appreciated, please take a look at [CONTRIBUTING](./CONTRIBUTING.md).
 
 ## 💰 Support me
 
