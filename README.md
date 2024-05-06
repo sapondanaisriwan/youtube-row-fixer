@@ -8,7 +8,7 @@ For customizing the videos per row.
 [![Forks][fork-badge]][members]
 [![MIT License][mit-badge]](./LICENSE)
 
-<img src="https://github.com/sapondanaisriwan/youtube-row-fixer/assets/64634605/c64881a9-2684-4de7-ad75-3c7c1981f7d3" width="100%" />
+<img src="https://github.com/sapondanaisriwan/youtube-row-fixer/assets/64634605/f225e25e-c18b-4854-954d-d89560a08c12" width="100%" />
 
 </div>
 
