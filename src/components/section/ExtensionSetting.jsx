@@ -45,7 +45,7 @@ function ExtensionSetting() {
           <HorizontalLine />
 
           <a
-            href="https://github.com/sapondanaisriwan/github-grid-view"
+            href="https://github.com/sapondanaisriwan/youtube-row-fixer"
             target="_blank"
             rel="noopener noreferrer"
           >
