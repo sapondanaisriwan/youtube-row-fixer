@@ -1,5 +1,11 @@
 ## YouTube Row Fixer
 
+### v1.0.6
+
+- Add a toggle option for "Dynamic videos per row" in response to a negative "one star" review. You guys are really toxic because I created this extension for my enjoyment and to better the YouTube community; I don't make any money from it.
+
+![KwBjvcv8xC](https://github.com/sapondanaisriwan/youtube-row-fixer/assets/64634605/fa3a2b27-abb1-4245-a41f-cd652db6a206)
+
 ### v1.0.5
 
 - Rebuild the project.
