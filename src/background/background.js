@@ -43,7 +43,6 @@ const main = async () => {
     world: "MAIN",
     files: ["inject/lib/ytZara.js", "inject/inject_script.js"],
   });
-  console.log("Injected Scirpt");
 };
 
 chrome.storage.onChanged.addListener(async (changes) => {

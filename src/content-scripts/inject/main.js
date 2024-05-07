@@ -2,19 +2,27 @@ import { eventGetRowFixerData, eventSendRowFixerData } from "../../data/event";
 import port from "../modules/utils/port";
 
 const settings = {};
+const oldSettings = {};
 
 const resolution = {
-  lg: 1024,
+  lg: 1000,
   md: 768,
   sm: 640,
 };
 
 // Event handler function to handle the received data event
 const handleDataEvent = ({ detail: { data } }) => {
+  settings.dynamicVideoPerRow = data.dynamicVideoPerRow;
   settings.elementsPerRow = data.videoPerRow;
   settings.postsPerRow = data.postPerRow;
   settings.slimItemsPerRow = data.shelfItemPerRow;
   settings.gameCardsPerRow = data.shelfItemPerRow;
+
+  oldSettings.dynamicVideoPerRow = data.dynamicVideoPerRow;
+  oldSettings.elementsPerRow = data.videoPerRow;
+  oldSettings.postsPerRow = data.postPerRow;
+  oldSettings.slimItemsPerRow = data.shelfItemPerRow;
+  oldSettings.gameCardsPerRow = data.shelfItemPerRow;
 };
 
 // Listen for the sendRowFixerData event and invoke handleDataEvent
@@ -31,6 +39,7 @@ ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
 
   let responsive = true;
   proto.calcElementsPerRow = function (a, b) {
+    console.log(a);
     if (!responsive && a === 194) return settings.slimItemsPerRow;
     return this.calcElementsPerRow733(a, b);
   };
@@ -48,11 +57,78 @@ ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
     const clientWidth = this.hostElement.clientWidth;
 
     // break point for smaller resolution
-    if (clientWidth <= resolution.lg) {
-      // return the original function
-      return oldRefreshGridLayout.apply(this, arguments);
+
+    if (settings.dynamicVideoPerRow) {
+      if (clientWidth <= resolution.sm) {
+        settings.elementsPerRow = 2;
+        settings.postsPerRow = 2;
+
+        // working but it leaves some blank spaces
+        settings.slimItemsPerRow = 2;
+        settings.gameCardsPerRow = 2;
+        responsive = true;
+      } else if (clientWidth <= resolution.md) {
+        settings.elementsPerRow = 3;
+        settings.postsPerRow = 3;
+
+        // working but it leaves some blank spaces
+        settings.slimItemsPerRow = 3;
+        settings.gameCardsPerRow = 3;
+        responsive = true;
+      } else if (clientWidth <= resolution.lg) {
+        settings.elementsPerRow = 4;
+        settings.postsPerRow = 4;
+
+        // working but it leaves some blank spaces
+        settings.slimItemsPerRow = 3;
+        settings.gameCardsPerRow = 3;
+        responsive = true;
+      } else {
+        settings.elementsPerRow = oldSettings.elementsPerRow;
+        settings.postsPerRow = oldSettings.postsPerRow;
+        settings.slimItemsPerRow = oldSettings.slimItemsPerRow;
+        settings.gameCardsPerRow = oldSettings.slimItemsPerRow;
+        responsive = false;
+      }
+    } else {
+      settings.elementsPerRow = settings.elementsPerRow;
+      settings.postsPerRow = settings.postsPerRow;
+      settings.slimItemsPerRow = settings.slimItemsPerRow;
+      settings.gameCardsPerRow = settings.slimItemsPerRow;
+      responsive = false;
     }
-    responsive = false;
+
+    // if (clientWidth <= resolution.sm && settings.dynamicVideoPerRow) {
+    //   settings.elementsPerRow = 2;
+    //   settings.postsPerRow = 2;
+
+    //   // working but it leaves some blank spaces
+    //   settings.slimItemsPerRow = 2;
+    //   settings.gameCardsPerRow = 2;
+    //   responsive = true;
+    // } else if (clientWidth <= resolution.md && settings.dynamicVideoPerRow) {
+    //   settings.elementsPerRow = 3;
+    //   settings.postsPerRow = 3;
+
+    //   // working but it leaves some blank spaces
+    //   settings.slimItemsPerRow = 3;
+    //   settings.gameCardsPerRow = 3;
+    //   responsive = true;
+    // } else if (clientWidth <= resolution.lg && settings.dynamicVideoPerRow) {
+    //   settings.elementsPerRow = 4;
+    //   settings.postsPerRow = 4;
+
+    //   // working but it leaves some blank spaces
+    //   settings.slimItemsPerRow = 3;
+    //   settings.gameCardsPerRow = 3;
+    //   responsive = true;
+    // } else {
+    //   settings.elementsPerRow = oldSettings.elementsPerRow;
+    //   settings.postsPerRow = oldSettings.postsPerRow;
+    //   settings.slimItemsPerRow = oldSettings.slimItemsPerRow;
+    //   settings.gameCardsPerRow = oldSettings.slimItemsPerRow;
+    //   responsive = false;
+    // }
 
     const props = [
       "elementsPerRow",

@@ -2,6 +2,7 @@ import SwitchControl from "../ui/SwitchControl";
 import SliderControl from "../ui/SliderControl";
 import {
   KeyDisplayFullTitle,
+  KeyDynamicVideo,
   KeyHideChannelProfile,
   KeyPostPerRow,
   KeyShelfItemPerRow,
@@ -20,6 +21,10 @@ function Main() {
         <SwitchControl
           label="Hide Channel Profile"
           storageKey={KeyHideChannelProfile}
+        />
+        <SwitchControl
+          label="Dynamic Video Per Row"
+          storageKey={KeyDynamicVideo}
         />
         <SliderControl
           label="Video Per Row"
