@@ -47,7 +47,7 @@ If you like this project you can tip me for my hard work at
 [![ko-fi.com](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/sapondanaisriwan)
 
 ## ©️ Credit
-- @cyfung1031 (ytZara library and for helping me create this project)
+- [@cyfung1031](https://github.com/cyfung1031) (ytZara library and for helping me create this project)
 
 ## ©️ License
 
