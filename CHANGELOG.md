@@ -1,5 +1,11 @@
 ## YouTube Row Fixer
 
+### v1.0.7
+- Fixed: script not working with "Shorts reel" and "Breaking news" section on the small resolution. ([#13], [#14])
+
+[#13]: https://github.com/sapondanaisriwan/youtube-row-fixer/issues/13
+[#14]: https://github.com/sapondanaisriwan/youtube-row-fixer/issues/14
+
 ### v1.0.6
 
 - Add a toggle option for "Dynamic videos per row" in response to a negative "one star" review. You guys are really toxic because I created this extension for my enjoyment and to better the YouTube community; I don't make any money from it.
