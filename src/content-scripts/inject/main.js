@@ -31,16 +31,35 @@ port.listen(eventSendRowFixerData, handleDataEvent);
 // Dispatch a custom event to get storage data
 port.callEvent({ name: eventGetRowFixerData, detail: "give me data" });
 
+// responsive => true: apply to mobile
+// responsive => false: apply to desktop
+let responsive = true;
+const setSettings = (elements, posts, slimItems, isResponsive) => {
+  settings.elementsPerRow = elements;
+  settings.postsPerRow = posts;
+  settings.slimItemsPerRow = slimItems;
+  settings.gameCardsPerRow = slimItems;
+  responsive = isResponsive;
+};
+
 ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
   const oldRefreshGridLayout = proto.refreshGridLayout;
 
   proto.calcElementsPerRow733 = proto.calcElementsPerRow;
   proto.reflowContent733 = proto.reflowContent;
 
-  let responsive = true;
   proto.calcElementsPerRow = function (a, b) {
-    console.log(a);
-    if (!responsive && a === 194) return settings.slimItemsPerRow;
+    // fix for "Breaking news" section for a large resolution
+    if (!responsive) {
+      return a === 194 ? settings.slimItemsPerRow : settings.elementsPerRow;
+    }
+
+    // fix "Breaking news" section for a small resolution
+    if (a === 310) return settings.elementsPerRow;
+
+    // fix "Short reels" section for a small resolution
+    if (a === 194) return settings.slimItemsPerRow;
+
     return this.calcElementsPerRow733(a, b);
   };
 
@@ -50,85 +69,35 @@ ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
     if (!responsive) return settings.slimItemsPerRow;
     return this.calcMaxSlimElementsPerRow733(a, b, c);
   };
-
   proto.refreshGridLayout = function () {
     responsive = true;
 
     const clientWidth = this.hostElement.clientWidth;
 
     // break point for smaller resolution
-
     if (settings.dynamicVideoPerRow) {
       if (clientWidth <= resolution.sm) {
-        settings.elementsPerRow = 2;
-        settings.postsPerRow = 2;
-
-        // working but it leaves some blank spaces
-        settings.slimItemsPerRow = 2;
-        settings.gameCardsPerRow = 2;
-        responsive = true;
+        setSettings(2, 2, 3, true);
       } else if (clientWidth <= resolution.md) {
-        settings.elementsPerRow = 3;
-        settings.postsPerRow = 3;
-
-        // working but it leaves some blank spaces
-        settings.slimItemsPerRow = 3;
-        settings.gameCardsPerRow = 3;
-        responsive = true;
+        setSettings(3, 3, 4, true);
       } else if (clientWidth <= resolution.lg) {
-        settings.elementsPerRow = 4;
-        settings.postsPerRow = 4;
-
-        // working but it leaves some blank spaces
-        settings.slimItemsPerRow = 3;
-        settings.gameCardsPerRow = 3;
-        responsive = true;
+        setSettings(4, 4, 5, true);
       } else {
-        settings.elementsPerRow = oldSettings.elementsPerRow;
-        settings.postsPerRow = oldSettings.postsPerRow;
-        settings.slimItemsPerRow = oldSettings.slimItemsPerRow;
-        settings.gameCardsPerRow = oldSettings.slimItemsPerRow;
-        responsive = false;
+        setSettings(
+          oldSettings.elementsPerRow,
+          oldSettings.postsPerRow,
+          oldSettings.slimItemsPerRow,
+          false
+        );
       }
     } else {
-      settings.elementsPerRow = settings.elementsPerRow;
-      settings.postsPerRow = settings.postsPerRow;
-      settings.slimItemsPerRow = settings.slimItemsPerRow;
-      settings.gameCardsPerRow = settings.slimItemsPerRow;
-      responsive = false;
+      setSettings(
+        settings.elementsPerRow,
+        settings.postsPerRow,
+        settings.slimItemsPerRow,
+        false
+      );
     }
-
-    // if (clientWidth <= resolution.sm && settings.dynamicVideoPerRow) {
-    //   settings.elementsPerRow = 2;
-    //   settings.postsPerRow = 2;
-
-    //   // working but it leaves some blank spaces
-    //   settings.slimItemsPerRow = 2;
-    //   settings.gameCardsPerRow = 2;
-    //   responsive = true;
-    // } else if (clientWidth <= resolution.md && settings.dynamicVideoPerRow) {
-    //   settings.elementsPerRow = 3;
-    //   settings.postsPerRow = 3;
-
-    //   // working but it leaves some blank spaces
-    //   settings.slimItemsPerRow = 3;
-    //   settings.gameCardsPerRow = 3;
-    //   responsive = true;
-    // } else if (clientWidth <= resolution.lg && settings.dynamicVideoPerRow) {
-    //   settings.elementsPerRow = 4;
-    //   settings.postsPerRow = 4;
-
-    //   // working but it leaves some blank spaces
-    //   settings.slimItemsPerRow = 3;
-    //   settings.gameCardsPerRow = 3;
-    //   responsive = true;
-    // } else {
-    //   settings.elementsPerRow = oldSettings.elementsPerRow;
-    //   settings.postsPerRow = oldSettings.postsPerRow;
-    //   settings.slimItemsPerRow = oldSettings.slimItemsPerRow;
-    //   settings.gameCardsPerRow = oldSettings.slimItemsPerRow;
-    //   responsive = false;
-    // }
 
     const props = [
       "elementsPerRow",
