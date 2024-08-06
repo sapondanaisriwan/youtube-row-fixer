@@ -14,6 +14,7 @@ export const optionHideChannelProfile = (hideChannelProfile) => {
     #home-page-skeleton .channel-avatar {
         display: none !important;
     }
+    #avatar-container.ytd-rich-grid-media,
     ytd-rich-grid-media a#avatar-link {
         display: none !important;
     }
