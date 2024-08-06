@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "version": "1.0.7",
+  "version": "1.0.8",
   "name": "`Next.js & CRXJS Chrome Extension",
   "description": "A chrome extension boilerplate using Next.js for building products and CRXJS for development.  ",
   "permissions": ["storage", "scripting"],
