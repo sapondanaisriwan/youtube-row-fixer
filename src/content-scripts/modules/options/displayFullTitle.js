@@ -13,7 +13,8 @@ export const optionDisplayFullTitle = (displayFullTitle) => {
     ytd-grid-video-renderer #video-title.yt-simple-endpoint.ytd-grid-video-renderer,
     ytd-rich-grid-media[mini-mode] #video-title.yt-simple-endpoint.ytd-grid-video-renderer,
     ytd-grid-video-renderer #video-title.ytd-rich-grid-media,
-    ytd-rich-grid-media[mini-mode] #video-title.ytd-rich-grid-media {
+    ytd-rich-grid-media[mini-mode] #video-title.ytd-rich-grid-media,
+    .yt-lockup-metadata-view-model-wiz--standard.yt-lockup-metadata-view-model-wiz--rich-grid-legacy-typography .yt-lockup-metadata-view-model-wiz__title {
       max-height: unset;
       -webkit-line-clamp: unset;
     }
