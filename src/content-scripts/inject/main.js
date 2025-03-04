@@ -49,6 +49,7 @@ ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
   proto.reflowContent733 = proto.reflowContent;
 
   proto.calcElementsPerRow = function (a, b) {
+    // return 7;
     // fix for "Breaking news" section for a large resolution
     if (!responsive) {
       return a === 194 ? settings.slimItemsPerRow : settings.elementsPerRow;
@@ -131,4 +132,8 @@ ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
 
     return result;
   };
+});
+
+ytZara.ytProtoAsync("ytd-rich-shelf-renderer").then((proto) => {
+  proto.refreshGridLayoutNew = function () {};
 });
