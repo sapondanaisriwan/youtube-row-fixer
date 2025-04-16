@@ -73,32 +73,60 @@ ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
   proto.refreshGridLayout = function () {
     responsive = true;
 
+    const currentPage =
+      document.querySelector("body > ytd-app")?.__data?.data?.page;
+
     const clientWidth = this.hostElement.clientWidth;
 
     // break point for smaller resolution
     if (settings.dynamicVideoPerRow) {
-      if (clientWidth <= resolution.sm) {
-        setSettings(2, 2, 3, true);
-      } else if (clientWidth <= resolution.md) {
-        setSettings(3, 3, 4, true);
-      } else if (clientWidth <= resolution.lg) {
-        setSettings(4, 4, 5, true);
-      } else {
+      if (clientWidth > 0) {
+        if (clientWidth <= resolution.sm) {
+          setSettings(2, 2, 3, true);
+        } else if (clientWidth <= resolution.md) {
+          setSettings(3, 3, 4, true);
+        } else if (clientWidth <= resolution.lg) {
+          setSettings(4, 4, 5, true);
+        } else {
+          if (currentPage === "channel") {
+            settings.elementsPerRow = 8;
+            setSettings(
+              settings.elementsPerRow,
+              settings.postsPerRow,
+              settings.slimItemsPerRow,
+              false
+            );
+          } else {
+            settings.elementsPerRow = 5;
+            setSettings(
+              settings.elementsPerRow,
+              settings.postsPerRow,
+              settings.slimItemsPerRow,
+              false
+            );
+          }
+        }
+      }
+    } else {
+      if (currentPage === "channel") {
+        settings.elementsPerRow = 8;
         setSettings(
-          oldSettings.elementsPerRow,
-          oldSettings.postsPerRow,
-          oldSettings.slimItemsPerRow,
+          settings.elementsPerRow,
+          settings.postsPerRow,
+          settings.slimItemsPerRow,
+          false
+        );
+      } else {
+        settings.elementsPerRow = 5;
+        setSettings(
+          settings.elementsPerRow,
+          settings.postsPerRow,
+          settings.slimItemsPerRow,
           false
         );
       }
-    } else {
-      setSettings(
-        settings.elementsPerRow,
-        settings.postsPerRow,
-        settings.slimItemsPerRow,
-        false
-      );
     }
+    settings.postsPerRow = 12;
 
     const props = [
       "elementsPerRow",
