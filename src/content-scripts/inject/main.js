@@ -89,19 +89,19 @@ ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
           setSettings(4, 4, 5, true);
         } else {
           if (currentPage === "channel") {
-            settings.elementsPerRow = 8;
-            setSettings(
-              settings.elementsPerRow,
-              settings.postsPerRow,
-              settings.slimItemsPerRow,
+            oldSettings.elementsPerRow = 8;
+            setoldSettings(
+              oldSettings.elementsPerRow,
+              oldSettings.postsPerRow,
+              oldSettings.slimItemsPerRow,
               false
             );
           } else {
-            settings.elementsPerRow = 5;
-            setSettings(
-              settings.elementsPerRow,
-              settings.postsPerRow,
-              settings.slimItemsPerRow,
+            oldSettings.elementsPerRow = 5;
+            setoldSettings(
+              oldSettings.elementsPerRow,
+              oldSettings.postsPerRow,
+              oldSettings.slimItemsPerRow,
               false
             );
           }
