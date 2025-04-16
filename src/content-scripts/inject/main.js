@@ -126,7 +126,6 @@ ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
         );
       }
     }
-    settings.postsPerRow = 12;
 
     const props = [
       "elementsPerRow",
