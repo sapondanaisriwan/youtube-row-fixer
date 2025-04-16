@@ -30,7 +30,7 @@ For customizing the videos per row.
 ## ⬇️ Download
 
 - [Chrome Extension][extension]
-- [Userscript][script]
+- [Userscript][script] (not recommended because I'm too lazy to update it)
 
 [extension]: https://chrome.google.com/webstore/detail/youtube-row-fixer/kehjfphhkfppnnjhdfhanmehkegdppho
 
