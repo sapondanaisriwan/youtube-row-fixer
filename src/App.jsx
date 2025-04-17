@@ -17,10 +17,12 @@ function App() {
   return (
     <NextUIProvider>
       <NextThemesProvider attribute="class" defaultTheme="dark">
-        <Container>
-          <Header />
-          <Main />
-        </Container>
+        <>
+          <Container>
+            <Header />
+            <Main />
+          </Container>
+        </>
       </NextThemesProvider>
     </NextUIProvider>
   );
