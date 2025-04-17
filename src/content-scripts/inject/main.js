@@ -73,9 +73,7 @@ ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
   proto.refreshGridLayout = function () {
     responsive = true;
 
-    const currentPage =
-      document.querySelector("body > ytd-app")?.__data?.data?.page;
-
+    const isChannelPage = this.isChannelPage;
     const clientWidth = this.hostElement.clientWidth;
 
     // break point for smaller resolution
@@ -88,9 +86,9 @@ ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
         } else if (clientWidth <= resolution.lg) {
           setSettings(4, 4, 5, true);
         } else {
-          if (currentPage === "channel") {
+          if (isChannelPage) {
             oldSettings.elementsPerRow = 8;
-            setoldSettings(
+            setSettings(
               oldSettings.elementsPerRow,
               oldSettings.postsPerRow,
               oldSettings.slimItemsPerRow,
@@ -98,7 +96,7 @@ ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
             );
           } else {
             oldSettings.elementsPerRow = 5;
-            setoldSettings(
+            setSettings(
               oldSettings.elementsPerRow,
               oldSettings.postsPerRow,
               oldSettings.slimItemsPerRow,
@@ -108,7 +106,7 @@ ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
         }
       }
     } else {
-      if (currentPage === "channel") {
+      if (isChannelPage) {
         settings.elementsPerRow = 8;
         setSettings(
           settings.elementsPerRow,
