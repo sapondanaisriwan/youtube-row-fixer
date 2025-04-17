@@ -1,6 +1,7 @@
 import { getAllStorage, getStorage } from "./modules/utils/storage";
 import { KeyExtensionStatus, settingKey } from "../data/storage-key";
 import { injectAllChanges } from "./modules/options/optionsChanges";
+import { optionPostsPerRow } from "./modules/options/postsPerRow";
 // import message from "../data/message";
 // import { sendMessage } from "./modules/utils/sendMessage";
 
@@ -38,7 +39,7 @@ const main = async () => {
   allData = await getAllStorage(settingKey);
 
   injectAllChanges(allData);
-
+  optionPostsPerRow();
   // try {
   //   console.log("send");
   //   const response = await sendMessage({ cmd: message.injected });

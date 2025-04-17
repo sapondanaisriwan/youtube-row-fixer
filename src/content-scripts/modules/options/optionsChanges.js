@@ -11,6 +11,4 @@ export const injectAllChanges = (data) => {
   optionHideChannelProfile(data[KeyHideChannelProfile]);
   optionDisplayFullTitle(data[KeyDisplayFullTitle]);
   optionSkeletonPerRow(data[KeyVideoPerRow]);
-
-  // ! Todo: fix youtube post
 };
