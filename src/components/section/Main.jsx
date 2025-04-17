@@ -27,6 +27,7 @@ function Main() {
           />
           <SwitchControl
             label="Auto-adjust videos per row"
+            description={"Automatically adjust video size on screen resize"}
             storageKey={KeyDynamicVideo}
           />
           <SliderControl
