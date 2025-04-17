@@ -13,50 +13,50 @@ import {
 
 function Main() {
   return (
-    <main className="overflow-auto">
-      <div className="flex flex-col p-3 bg-content2 dark:bg-background">
-        <p>Main page</p>
-        <div className="bg-content1 rounded-lg">
+    <main className="overflow-auto max-h-[536px] p-3">
+      <div className="flex flex-col bg-content2 dark:bg-background">
+        <p className="bg-content1 dark:bg-background text-small font-semibold pb-2">Home page</p>
+        <div className="bg-content1 rounded-lg overflow-hidden">
           <SwitchControl
-            label="Show Full Video Titles"
+            label="Show full video titles"
             storageKey={KeyDisplayFullTitle}
           />
           <SwitchControl
-            label="Hide Channel Profile"
+            label="Hide channel profile"
             storageKey={KeyHideChannelProfile}
           />
           <SwitchControl
-            label="Auto-Adjust Videos Per Row"
+            label="Auto-adjust videos per row"
             storageKey={KeyDynamicVideo}
           />
           <SliderControl
-            label="Videos Per Row"
+            label="Videos per row"
             storageKey={KeyVideoPerRow}
             maxValue={15}
           />
           <SliderControl
-            label="Posts Per Row"
+            label="Posts per row"
             storageKey={KeyPostPerRow}
             maxValue={6}
           />
           <SliderControl
-            label="Shorts Per Row"
+            label="Shorts per row"
             storageKey={KeyShelfItemPerRow}
             maxValue={12}
             borderBottom={false}
           />
         </div>
       </div>
-      <div className="flex flex-col p-3 bg-content2 dark:bg-background">
-        <p>Channel page</p>
-        <div className="bg-content1 rounded-lg">
+      <div className="flex flex-col bg-content2 dark:bg-background">
+        <p className="bg-content1 dark:bg-background text-small font-semibold pt-6 pb-2">Channel page</p>
+        <div className="bg-content1 rounded-lg overflow-hidden">
           <SliderControl
-            label="Videos Per Row"
+            label="Videos per row"
             storageKey={KeyChannelPageVideoPerRow}
             maxValue={15}
           />
           <SliderControl
-            label="Shorts Per Row"
+            label="Shorts per row"
             storageKey={KeyChannelPageShelfItemPerRow}
             maxValue={15}
             borderBottom={false}
