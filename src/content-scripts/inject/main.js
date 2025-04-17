@@ -18,11 +18,19 @@ const handleDataEvent = ({ detail: { data } }) => {
   settings.slimItemsPerRow = data.shelfItemPerRow;
   settings.gameCardsPerRow = data.shelfItemPerRow;
 
+  // Channel page
+  settings.channelVideoPerRow = data.channelPageVideoPerRow;
+  settings.channelSlimItemsPerRow = data.channelPageShelfItemPerRow;
+
   oldSettings.dynamicVideoPerRow = data.dynamicVideoPerRow;
   oldSettings.elementsPerRow = data.videoPerRow;
   oldSettings.postsPerRow = data.postPerRow;
   oldSettings.slimItemsPerRow = data.shelfItemPerRow;
   oldSettings.gameCardsPerRow = data.shelfItemPerRow;
+
+  // channel page
+  oldSettings.channelVideoPerRow = data.channelPageVideoPerRow;
+  oldSettings.channelSlimItemsPerRow = data.channelPageShelfItemPerRow;
 };
 
 // Listen for the sendRowFixerData event and invoke handleDataEvent
@@ -87,15 +95,13 @@ ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
           setSettings(4, 4, 5, true);
         } else {
           if (isChannelPage) {
-            oldSettings.elementsPerRow = 8;
             setSettings(
-              oldSettings.elementsPerRow,
+              oldSettings.channelVideoPerRow,
               oldSettings.postsPerRow,
-              oldSettings.slimItemsPerRow,
+              oldSettings.channelSlimItemsPerRow,
               false
             );
           } else {
-            oldSettings.elementsPerRow = 5;
             setSettings(
               oldSettings.elementsPerRow,
               oldSettings.postsPerRow,
@@ -107,15 +113,13 @@ ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
       }
     } else {
       if (isChannelPage) {
-        settings.elementsPerRow = 8;
         setSettings(
-          settings.elementsPerRow,
+          settings.channelVideoPerRow,
           settings.postsPerRow,
-          settings.slimItemsPerRow,
+          settings.channelSlimItemsPerRow,
           false
         );
       } else {
-        settings.elementsPerRow = 5;
         setSettings(
           settings.elementsPerRow,
           settings.postsPerRow,
