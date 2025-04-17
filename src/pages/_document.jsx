@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html lang="en" suppressHydrationWarning>
       <Head />
-      <body>
+      <body className="h-[600px] overflow-hidden">
         <Main />
         <NextScript />
       </body>
