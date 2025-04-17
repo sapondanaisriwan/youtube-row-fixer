@@ -18,11 +18,19 @@ const handleDataEvent = ({ detail: { data } }) => {
   settings.slimItemsPerRow = data.shelfItemPerRow;
   settings.gameCardsPerRow = data.shelfItemPerRow;
 
+  // Channel page
+  settings.channelVideoPerRow = data.channelPageVideoPerRow;
+  settings.channelSlimItemsPerRow = data.channelPageShelfItemPerRow;
+
   oldSettings.dynamicVideoPerRow = data.dynamicVideoPerRow;
   oldSettings.elementsPerRow = data.videoPerRow;
   oldSettings.postsPerRow = data.postPerRow;
   oldSettings.slimItemsPerRow = data.shelfItemPerRow;
   oldSettings.gameCardsPerRow = data.shelfItemPerRow;
+
+  // channel page
+  oldSettings.channelVideoPerRow = data.channelPageVideoPerRow;
+  oldSettings.channelSlimItemsPerRow = data.channelPageShelfItemPerRow;
 };
 
 // Listen for the sendRowFixerData event and invoke handleDataEvent
@@ -73,31 +81,52 @@ ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
   proto.refreshGridLayout = function () {
     responsive = true;
 
+    const isChannelPage = this.isChannelPage;
     const clientWidth = this.hostElement.clientWidth;
 
     // break point for smaller resolution
     if (settings.dynamicVideoPerRow) {
-      if (clientWidth <= resolution.sm) {
-        setSettings(2, 2, 3, true);
-      } else if (clientWidth <= resolution.md) {
-        setSettings(3, 3, 4, true);
-      } else if (clientWidth <= resolution.lg) {
-        setSettings(4, 4, 5, true);
+      if (clientWidth > 0) {
+        if (clientWidth <= resolution.sm) {
+          setSettings(2, 2, 3, true);
+        } else if (clientWidth <= resolution.md) {
+          setSettings(3, 3, 4, true);
+        } else if (clientWidth <= resolution.lg) {
+          setSettings(4, 4, 5, true);
+        } else {
+          if (isChannelPage) {
+            setSettings(
+              oldSettings.channelVideoPerRow,
+              oldSettings.postsPerRow,
+              oldSettings.channelSlimItemsPerRow,
+              false
+            );
+          } else {
+            setSettings(
+              oldSettings.elementsPerRow,
+              oldSettings.postsPerRow,
+              oldSettings.slimItemsPerRow,
+              false
+            );
+          }
+        }
+      }
+    } else {
+      if (isChannelPage) {
+        setSettings(
+          settings.channelVideoPerRow,
+          settings.postsPerRow,
+          settings.channelSlimItemsPerRow,
+          false
+        );
       } else {
         setSettings(
-          oldSettings.elementsPerRow,
-          oldSettings.postsPerRow,
-          oldSettings.slimItemsPerRow,
+          settings.elementsPerRow,
+          settings.postsPerRow,
+          settings.slimItemsPerRow,
           false
         );
       }
-    } else {
-      setSettings(
-        settings.elementsPerRow,
-        settings.postsPerRow,
-        settings.slimItemsPerRow,
-        false
-      );
     }
 
     const props = [

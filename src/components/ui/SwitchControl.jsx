@@ -10,6 +10,7 @@ function SwitchControl({
   thumbIconOff,
   onChange,
   borderBottom,
+  description,
 }) {
   const [selected, setSelected, isLoaded] = useStorageState(storageKey);
 
@@ -33,6 +34,12 @@ function SwitchControl({
             }}
           >
             {label}
+            {
+              description && (
+                <p className="text-default-500 text-xs">
+                  {description}
+                </p>
+              )}
           </Switch>
           <HorizontalLine borderBottom={borderBottom} />
         </>
