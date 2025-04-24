@@ -3,7 +3,6 @@ import { KeyPostPerRow } from "../../../data/storage-key";
 import { removeElementById } from "../utils/removeElement";
 
 export const optionPostsPerRow = () => {
-  console.log("Inject Poster per row");
   addStyle(
     KeyPostPerRow,
     `
