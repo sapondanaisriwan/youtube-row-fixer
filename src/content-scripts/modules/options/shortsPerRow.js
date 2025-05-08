@@ -3,6 +3,18 @@ import { KeyShelfItemPerRow } from "../../../data/storage-key";
 import { removeElementById } from "../utils/removeElement";
 
 export const optionShortsPerRow = (amount) => {
+  if (amount === 0) {
+    addStyle(
+      KeyShelfItemPerRow,
+      `
+      ytd-rich-shelf-renderer[is-shorts] {
+        display: none !important;
+      }
+      `
+    );
+    return;
+  }
+
   addStyle(
     KeyShelfItemPerRow,
     `
