@@ -46,7 +46,7 @@ function Main() {
             maxValue={12}
             minValue={0}
             borderBottom={false}
-            zeroValueMessage="⚠ With value of zero, shorts are disabled completely on Home and Subscriptions"
+            zeroValueMessage="⚠ A value of zero disables shorts completely on Home and Subscriptions"
           />
         </div>
       </div>
