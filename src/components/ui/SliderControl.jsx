@@ -9,6 +9,7 @@ function SliderControl({
   maxValue,
   minValue,
   borderBottom,
+  zeroValueMessage,
 }) {
   const [value, setValue, isLoaded] = useStorageState(storageKey);
 
@@ -16,20 +17,27 @@ function SliderControl({
     <>
       {isLoaded && (
         <>
-          <Slider
-            defaultValue={value}
-            onChangeEnd={setValue}
-            label={label}
-            step={step ?? 1}
-            maxValue={maxValue}
-            minValue={minValue ?? 1}
-            color="primary"
-            // size=""
-            classNames={{
-              base: "max-w-md bg-content1 p-3",
-              thumb: "w-5 h-5 shadow shadow-gray-500 after:bg-white",
-            }}
-          />
+          <div className="bg-content1 p-3">
+            <Slider
+              defaultValue={value}
+              onChangeEnd={setValue}
+              label={label}
+              step={step ?? 1}
+              maxValue={maxValue}
+              minValue={minValue ?? 1}
+              color="primary"
+              // size=""
+              classNames={{
+                base: "max-w-md",
+                thumb: "w-5 h-5 shadow shadow-gray-500 after:bg-white",
+              }}
+            />
+            {value === 0 && zeroValueMessage && (
+              <p className="text-default-500 text-xs mt-2">
+                {zeroValueMessage}
+              </p>
+            )}
+          </div>
           <HorizontalLine borderBottom={borderBottom} />
         </>
       )}

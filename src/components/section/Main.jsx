@@ -44,7 +44,9 @@ function Main() {
             label="Shorts per row"
             storageKey={KeyShelfItemPerRow}
             maxValue={12}
+            minValue={0}
             borderBottom={false}
+            zeroValueMessage="⚠ A value of zero disables shorts completely on Home and Subscriptions"
           />
         </div>
       </div>
