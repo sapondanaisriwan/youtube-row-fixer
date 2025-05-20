@@ -17,47 +17,48 @@ chrome.runtime.onInstalled.addListener(async ({ reason }) => {
     await chrome.tabs.create({
       url: "https://github.com/sapondanaisriwan/youtube-row-fixer",
     });
-
-    const tabs = await chrome.tabs.query({
-      url: "https://www.youtube.com/*",
-    });
-    tabs.forEach((tab) => {
-      chrome.tabs.reload(tab.id);
-    });
   }
 });
 
 const main = async () => {
-  const matchingScripts = await getRegisteredScripts();
+  try {
+    const matchingScripts = await getRegisteredScripts();
 
-  if (matchingScripts) {
-    return;
+    if (matchingScripts) {
+      return;
+    }
+
+    await injectScript({
+      id: scriptContentScript,
+      files: ["inject/bridge.js"],
+    });
+    await injectScript({
+      id: scriptInjectScript,
+      world: "MAIN",
+      files: ["inject/lib/ytZara.js", "inject/inject_script.js"],
+    });
+  } catch (err) {
+    console.log(err);
   }
-
-  await injectScript({
-    id: scriptContentScript,
-    files: ["inject/bridge.js"],
-  });
-  await injectScript({
-    id: scriptInjectScript,
-    world: "MAIN",
-    files: ["inject/lib/ytZara.js", "inject/inject_script.js"],
-  });
 };
 
 chrome.storage.onChanged.addListener(async (changes) => {
-  const extensionStatus = await getStorage(KeyExtensionStatus);
+  try {
+    const extensionStatus = await getStorage(KeyExtensionStatus);
 
-  if (extensionStatus) {
-    await main();
-    return;
-  }
+    if (extensionStatus) {
+      await main();
+      return;
+    }
 
-  const matchingScripts = await getRegisteredScripts();
-  if (!matchingScripts) {
-    return;
+    const matchingScripts = await getRegisteredScripts();
+    if (!matchingScripts) {
+      return;
+    }
+    await unregisterScripts(allScriptIds);
+  } catch (err) {
+    console.log(err);
   }
-  await unregisterScripts(allScriptIds);
 });
 
 // initial inject the
