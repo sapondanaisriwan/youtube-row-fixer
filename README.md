@@ -4,7 +4,6 @@
 
 A browser extension that lets you customize the number of videos, posts, and shorts displayed per row on YouTube.
 
-
 [![Star][star-badge]][star]
 [![Forks][fork-badge]][members]
 [![MIT License][mit-badge]](./LICENSE)
@@ -26,6 +25,15 @@ A browser extension that lets you customize the number of videos, posts, and sho
 [firefox-link]: https://addons.mozilla.org/en-US/firefox/addon/youtube-row-fixer-extension/
 [firefox-badge]: https://img.shields.io/badge/Firefox-blue.svg?logo=data:image/png;base64,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
 
+## 📑 Table of Contents
+
+- [📷 Screenshot](#-screenshot)
+- [⬇️ Installation](#️-download)
+- [🧑‍💻 Contributing](#-contributing)
+- [💰 Support Me](#-support-me)
+- [©️ Credit](#️-credit)
+- [©️ License](#️-license)
+
 ## 📷 Screenshot
 
 | **Before** | **After** |
@@ -35,7 +43,7 @@ A browser extension that lets you customize the number of videos, posts, and sho
 [b1]: https://i.imgur.com/COpwwUV.png
 [a1]: https://i.imgur.com/XhBk3hF.png
 
-## ⬇️ Download
+## ✨ Installation
 
 - [Chrome Extension][chrome]
 - [FireFox Extension][firefox] (Coming soon!)
