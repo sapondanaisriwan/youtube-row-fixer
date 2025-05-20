@@ -28,7 +28,7 @@ A browser extension that lets you customize the number of videos, posts, and sho
 ## 📑 Table of Contents
 
 - [📷 Screenshot](#-screenshot)
-- [⬇️ Installation](#️-download)
+- [⬇️ Installation](#️-installation)
 - [🧑‍💻 Contributing](#-contributing)
 - [💰 Support Me](#-support-me)
 - [©️ Credit](#️-credit)
