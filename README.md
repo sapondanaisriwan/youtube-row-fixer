@@ -2,7 +2,7 @@
 
 # YouTube Row Fixer
 
-For customizing the videos per row.
+A browser extension that lets you customize the number of videos, posts, and shorts displayed per row on YouTube.
 
 [![Star][star-badge]][star]
 [![Forks][fork-badge]][members]
