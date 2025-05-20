@@ -17,6 +17,13 @@ chrome.runtime.onInstalled.addListener(async ({ reason }) => {
     await chrome.tabs.create({
       url: "https://github.com/sapondanaisriwan/youtube-row-fixer",
     });
+
+    // const tabs = await chrome.tabs.query({
+    //   url: "https://www.youtube.com/*",
+    // });
+    // tabs.forEach((tab) => {
+    //   chrome.tabs.reload(tab.id);
+    // });
   }
 });
 
