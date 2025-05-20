@@ -3,7 +3,7 @@
   "version": "1.1.1",
   "name": "YouTube Row Fixer",
   "description": "A browser extension for customizing the videos per row.",
-  "host_permissions": ["https://www.youtube.com/*"],
+  "host_permissions": ["*://*.youtube.com/*"],
   "permissions": ["storage", "scripting"],
   "background": { "service_worker": "background.js" },
   "action": {
@@ -21,13 +21,13 @@
   "content_scripts": [
     {
       "run_at": "document_start",
-      "matches": ["https://www.youtube.com/*"],
+      "matches": ["*://*.youtube.com/*"],
       "js": ["content_script.js"]
     }
   ],
   "web_accessible_resources": [
     {
-      "matches": ["<all_urls>"],
+      "matches": ["*://*.youtube.com/*"],
       "resources": ["**/*", "*"],
       "use_dynamic_url": true
     }
