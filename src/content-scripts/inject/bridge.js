@@ -11,12 +11,18 @@ import { getAllStorage } from "../modules/utils/storage";
 
 chrome.storage.onChanged.addListener(async (changes) => {
   const allData = await getAllStorage(settingKey);
-  port.callEvent({ name: eventSendRowFixerData, detail: allData });
+  port.callEvent({
+    name: eventSendRowFixerData,
+    detail: allData,
+  });
 });
 
 port.listen(eventGetRowFixerData, async (event) => {
   const allData = await getAllStorage(settingKey);
-  port.callEvent({ name: eventSendRowFixerData, detail: allData });
+  port.callEvent({
+    name: eventSendRowFixerData,
+    detail: allData,
+  });
 });
 
 // window.addEventListener(eventGetRowFixerData, async (event) => {
