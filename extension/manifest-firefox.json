@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "version": "1.1.2",
+  "name": "YouTube Row Fixer",
+  "description": "A browser extension for customizing the videos per row and to fix big thumbnail issue.",
+  "permissions": ["scripting", "storage"],
+  "host_permissions": ["*://*.youtube.com/*"],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "action": {
+    "default_title": "YouTube Row Fixer",
+    "default_icon": "images/rowFixer-32.png",
+    "default_popup": "index.html"
+  },
+  "icons": {
+    "16": "images/rowFixer-16.png",
+    "32": "images/rowFixer-32.png",
+    "48": "images/rowFixer-48.png",
+    "64": "images/rowFixer-64.png",
+    "128": "images/rowFixer-128.png"
+  },
+  "content_scripts": [
+    {
+      "run_at": "document_start",
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content_script.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "resources": ["**/*", "*"]
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{b6b8a44a-b6d7-42e2-ba01-636632196d01}",
+      "strict_min_version": "102.0"
+    }
+  }
+}

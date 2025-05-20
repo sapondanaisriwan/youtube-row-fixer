@@ -6,7 +6,7 @@ port.listen = (name, callback) => {
 
 port.callEvent = ({ name, detail }) => {
   const customEvent = new CustomEvent(name, {
-    detail: { data: detail },
+    detail: JSON.stringify({ data: detail }),
   });
   window.dispatchEvent(customEvent);
 };

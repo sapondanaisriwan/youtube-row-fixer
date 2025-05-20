@@ -10,7 +10,7 @@ let allData;
 
 chrome.storage.onChanged.addListener(async (changes) => {
   if (changes[KeyExtensionStatus]) {
-    window.location.reload();
+    // window.location.reload();
     return;
   }
 

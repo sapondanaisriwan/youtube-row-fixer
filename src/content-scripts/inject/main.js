@@ -11,7 +11,8 @@ const resolution = {
 };
 
 // Event handler function to handle the received data event
-const handleDataEvent = ({ detail: { data } }) => {
+const handleDataEvent = (obj) => {
+  const { data } = JSON.parse(obj.detail);
   settings.dynamicVideoPerRow = data.dynamicVideoPerRow;
   settings.elementsPerRow = data.videoPerRow;
   settings.postsPerRow = data.postPerRow;
@@ -37,7 +38,7 @@ const handleDataEvent = ({ detail: { data } }) => {
 port.listen(eventSendRowFixerData, handleDataEvent);
 
 // Dispatch a custom event to get storage data
-port.callEvent({ name: eventGetRowFixerData, detail: "give me data" });
+port.callEvent({ name: eventGetRowFixerData, detail: {} });
 
 // responsive => true: apply to mobile
 // responsive => false: apply to desktop
