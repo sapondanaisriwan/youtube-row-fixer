@@ -29,11 +29,12 @@ For customizing the videos per row.
 
 ## ⬇️ Download
 
-- [Chrome Extension][extension]
-- [Userscript][script] (not recommended because I'm too lazy to update it)
+- [Chrome Extension][chrome]
+- [FireFox Extension][firefox] (Coming soon!)
+<!-- - [Userscript][script] (not recommended because I'm too lazy to update it) -->
 
-[extension]: https://chrome.google.com/webstore/detail/youtube-row-fixer/kehjfphhkfppnnjhdfhanmehkegdppho
-
+[chrome]: https://chrome.google.com/webstore/detail/youtube-row-fixer/kehjfphhkfppnnjhdfhanmehkegdppho
+[firefox]: https://addons.mozilla.org/en-US/firefox/addon/youtube-row-fixer-extension/
 [script]: https://greasyfork.org/en/scripts/465840-youtube-videos-per-row-fix
 
 ## 🧑‍💻 Contributing
@@ -47,6 +48,7 @@ If you like this project you can tip me for my hard work at
 [![ko-fi.com](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/sapondanaisriwan)
 
 ## ©️ Credit
+
 - [@cyfung1031](https://github.com/cyfung1031) (ytZara library and for helping me create this project)
 
 ## ©️ License
