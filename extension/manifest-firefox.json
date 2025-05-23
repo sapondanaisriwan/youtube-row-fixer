@@ -4,7 +4,7 @@
   "name": "YouTube Row Fixer",
   "description": "A browser extension for customizing the videos per row and to fix big thumbnail issue.",
   "permissions": ["scripting", "storage"],
-  "host_permissions": ["*://*.youtube.com/*"],
+  "host_permissions": ["https://www.youtube.com/*"],
   "background": {
     "scripts": ["background.js"]
   },
@@ -23,13 +23,13 @@
   "content_scripts": [
     {
       "run_at": "document_start",
-      "matches": ["*://*.youtube.com/*"],
+      "matches": ["https://www.youtube.com/*"],
       "js": ["content_script.js"]
     }
   ],
   "web_accessible_resources": [
     {
-      "matches": ["*://*.youtube.com/*"],
+      "matches": ["https://www.youtube.com/*"],
       "resources": ["**/*", "*"]
     }
   ],
