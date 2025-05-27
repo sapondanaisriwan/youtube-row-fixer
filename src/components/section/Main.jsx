@@ -6,6 +6,7 @@ import {
   KeyDisplayFullTitle,
   KeyDynamicVideo,
   KeyHideChannelProfile,
+  KeyHideShort,
   KeyPostPerRow,
   KeyShelfItemPerRow,
   KeyVideoPerRow,
@@ -18,12 +19,16 @@ function Main() {
         <p className="bg-content1 dark:bg-background text-small font-semibold pb-2">Home page</p>
         <div className="bg-content1 rounded-lg overflow-hidden">
           <SwitchControl
-            label="Show full video titles"
-            storageKey={KeyDisplayFullTitle}
+            label="Hide shorts"
+            storageKey={KeyHideShort}
           />
           <SwitchControl
             label="Hide channel profile"
             storageKey={KeyHideChannelProfile}
+          />
+          <SwitchControl
+            label="Show full video titles"
+            storageKey={KeyDisplayFullTitle}
           />
           <SwitchControl
             label="Auto-adjust videos per row"
@@ -44,9 +49,8 @@ function Main() {
             label="Shorts per row"
             storageKey={KeyShelfItemPerRow}
             maxValue={12}
-            minValue={0}
+            minValue={1}
             borderBottom={false}
-            zeroValueMessage="⚠ A value of zero disables shorts completely on Home and Subscriptions"
           />
         </div>
       </div>
