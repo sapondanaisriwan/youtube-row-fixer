@@ -26,7 +26,7 @@ export const optionDisplayFullTitle = (displayFullTitle) => {
     #video-title.ytd-reel-item-renderer {
       max-height: unset;
       -webkit-line-clamp: unset;
-    }    
+    }
   `
   );
 };
