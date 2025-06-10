@@ -32,6 +32,8 @@ const handleDataEvent = (obj) => {
   // channel page
   oldSettings.channelVideoPerRow = data.channelPageVideoPerRow;
   oldSettings.channelSlimItemsPerRow = data.channelPageShelfItemPerRow;
+
+  reflowLayout(data);
 };
 
 // Listen for the sendRowFixerData event and invoke handleDataEvent
@@ -49,6 +51,45 @@ const setSettings = (elements, posts, slimItems, isResponsive) => {
   settings.slimItemsPerRow = slimItems;
   settings.gameCardsPerRow = slimItems;
   responsive = isResponsive;
+};
+
+const reflowLayout = (data) => {
+  const grids = document.querySelectorAll("ytd-rich-grid-renderer");
+
+  if (!grids.length) {
+    return;
+  }
+
+  const {
+    channelVideoPerRow,
+    channelSlimItemsPerRow,
+    videoPerRow,
+    postPerRow,
+    shelfItemPerRow,
+  } = data;
+
+  grids.forEach((ele) => {
+    const setStyleProps = (props) => {
+      for (const [prop, value] of Object.entries(props)) {
+        ele.style.setProperty(prop, value);
+      }
+    };
+
+    if (ele.isChannelPage) {
+      setStyleProps({
+        "--ytd-rich-grid-items-per-row": channelVideoPerRow,
+        "--ytd-rich-grid-slim-items-per-row": channelSlimItemsPerRow,
+      });
+    } else {
+      setStyleProps({
+        "--ytd-rich-grid-items-per-row": videoPerRow,
+        "--ytd-rich-grid-mini-game-cards-per-row": videoPerRow,
+        "--ytd-rich-grid-posts-per-row": postPerRow,
+        "--ytd-rich-grid-slim-items-per-row": shelfItemPerRow,
+        "--ytd-rich-grid-game-cards-per-row": shelfItemPerRow,
+      });
+    }
+  });
 };
 
 ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
