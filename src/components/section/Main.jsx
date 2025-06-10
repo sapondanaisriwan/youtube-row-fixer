@@ -3,6 +3,7 @@ import SliderControl from "../ui/SliderControl";
 import {
   KeyChannelPageShelfItemPerRow,
   KeyChannelPageVideoPerRow,
+  KeyChannelPageWideLayout,
   KeyDisplayFullTitle,
   KeyDynamicVideo,
   KeyHideChannelProfile,
@@ -57,6 +58,10 @@ function Main() {
       <div className="flex flex-col bg-content2 dark:bg-background">
         <p className="bg-content1 dark:bg-background text-small font-semibold pt-6 pb-2">Channel page</p>
         <div className="bg-content1 rounded-lg overflow-hidden">
+          <SwitchControl
+            label="Wide layout"
+            storageKey={KeyChannelPageWideLayout}
+          />
           <SliderControl
             label="Videos per row"
             storageKey={KeyChannelPageVideoPerRow}

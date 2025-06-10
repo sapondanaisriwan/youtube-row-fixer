@@ -14,6 +14,7 @@ export const KeyShelfItemPerRow = "shelfItemPerRow";
 // Channel Page
 export const KeyChannelPageVideoPerRow = "channelPageVideoPerRow";
 export const KeyChannelPageShelfItemPerRow = "channelPageShelfItemPerRow";
+export const KeyChannelPageWideLayout = "channelPageWideLayout";
 
 export const settingKey = [
   KeyExtensionStatus,
@@ -29,6 +30,7 @@ export const settingKey = [
 
   KeyChannelPageVideoPerRow,
   KeyChannelPageShelfItemPerRow,
+  KeyChannelPageWideLayout,
 ];
 
 export const defaultSetting = {
@@ -43,6 +45,7 @@ export const defaultSetting = {
   [KeyPostPerRow]: 3,
   [KeyShelfItemPerRow]: 12,
 
+  [KeyChannelPageWideLayout]: false,
   [KeyChannelPageVideoPerRow]: 5,
   [KeyChannelPageShelfItemPerRow]: 8,
 };
