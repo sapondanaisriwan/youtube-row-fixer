@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "version": "1.1.5",
+  "version": "1.1.6",
   "name": "YouTube Row Fixer",
   "description": "A browser extension for customizing the videos per row and to fix big thumbnail issue.",
   "permissions": ["scripting", "storage"],
