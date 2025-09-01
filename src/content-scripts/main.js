@@ -1,5 +1,9 @@
 import { getAllStorage, getStorage } from "./modules/utils/storage";
-import { KeyExtensionStatus, KeyShelfItemPerRow, settingKey } from "../data/storage-key";
+import {
+  KeyExtensionStatus,
+  KeyShelfItemPerRow,
+  settingKey,
+} from "../data/storage-key";
 import { injectAllChanges } from "./modules/options/optionsChanges";
 import { optionPostsPerRow } from "./modules/options/postsPerRow";
 import { optionShortsPerRow } from "./modules/options/shortsPerRow";
@@ -41,7 +45,6 @@ const main = async () => {
 
   injectAllChanges(allData);
   optionPostsPerRow();
-  optionShortsPerRow(allData[KeyShelfItemPerRow])
   // try {
   //   console.log("send");
   //   const response = await sendMessage({ cmd: message.injected });

@@ -43,8 +43,8 @@ export const optionHideShort = (hideShort) => {
     }
 
     /* ---- Channel Feed ---- */
-    [page-subtype="channels"] ytd-item-section-renderer:has(a[href^="/shorts/"]),
-    [page-subtype="channels"] ytd-rich-grid-renderer:has(a[href^="/shorts/"]) {
+    /* [page-subtype="channels"] ytd-rich-grid-renderer:has(a[href^="/shorts/"]) */
+    [page-subtype="channels"] ytd-item-section-renderer:has(a[href^="/shorts/"]) {
       display: none;
     }
 

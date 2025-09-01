@@ -10,6 +10,7 @@ export const optionDisplayFullTitle = (displayFullTitle) => {
   addStyle(
     KeyDisplayFullTitle,
     `
+    .yt-lockup-metadata-view-model--standard.yt-lockup-metadata-view-model--rich-grid-legacy-typography .yt-lockup-metadata-view-model__title,
     ytd-grid-video-renderer #video-title.yt-simple-endpoint.ytd-grid-video-renderer,
     ytd-rich-grid-media[mini-mode] #video-title.yt-simple-endpoint.ytd-grid-video-renderer,
     ytd-grid-video-renderer #video-title.ytd-rich-grid-media,
