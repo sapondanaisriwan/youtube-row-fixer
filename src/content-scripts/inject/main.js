@@ -124,12 +124,8 @@ const observablePromise = (proc, timeoutPromise) => {
 
 (async () => {
   await observablePromise(() => {
-    console.log("Here wait1")
     return document.querySelector("ytd-page-manager");
   }).obtain();
-
-    console.log("Here wait2")
-
 
   ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
     const oldRefreshGridLayout = proto.refreshGridLayout;
