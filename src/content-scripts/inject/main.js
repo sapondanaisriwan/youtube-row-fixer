@@ -92,119 +92,155 @@ const reflowLayout = (data) => {
   });
 };
 
-ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
-  const oldRefreshGridLayout = proto.refreshGridLayout;
-
-  proto.calcElementsPerRow733 = proto.calcElementsPerRow;
-  proto.reflowContent733 = proto.reflowContent;
-
-  proto.calcElementsPerRow = function (a, b) {
-    // return 7;
-    // fix for "Breaking news" section for a large resolution
-    if (!responsive) {
-      return a === 194 ? settings.slimItemsPerRow : settings.elementsPerRow;
-    }
-
-    // fix "Breaking news" section for a small resolution
-    if (a === 310) return settings.elementsPerRow;
-
-    // fix "Short reels" section for a small resolution
-    if (a === 194) return settings.slimItemsPerRow;
-
-    return this.calcElementsPerRow733(a, b);
+const observablePromise = (proc, timeoutPromise) => {
+  let promise = null;
+  return {
+    obtain() {
+      if (!promise) {
+        promise = new Promise((resolve) => {
+          let mo = null;
+          const f = () => {
+            let t = proc();
+            if (t) {
+              mo.disconnect();
+              mo.takeRecords();
+              mo = null;
+              resolve(t);
+            }
+          };
+          mo = new MutationObserver(f);
+          mo.observe(document, { subtree: true, childList: true });
+          f();
+          timeoutPromise &&
+            timeoutPromise.then(() => {
+              resolve(null);
+            });
+        });
+      }
+      return promise;
+    },
   };
+};
 
-  proto.calcMaxSlimElementsPerRow733 = proto.calcMaxSlimElementsPerRow;
+(async () => {
+  await observablePromise(() => {
+    return document.querySelector("ytd-page-manager");
+  }).obtain();
 
-  proto.calcMaxSlimElementsPerRow = function (a, b, c) {
-    if (!responsive) return settings.slimItemsPerRow;
-    return this.calcMaxSlimElementsPerRow733(a, b, c);
-  };
-  proto.refreshGridLayout = function () {
-    responsive = true;
+  ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
+    const oldRefreshGridLayout = proto.refreshGridLayout;
 
-    const isChannelPage = this.isChannelPage;
-    const clientWidth = this.hostElement.clientWidth;
+    proto.calcElementsPerRow733 = proto.calcElementsPerRow;
+    proto.reflowContent733 = proto.reflowContent;
 
-    // break point for smaller resolution
-    if (settings.dynamicVideoPerRow) {
-      if (clientWidth > 0) {
-        if (clientWidth <= resolution.sm) {
-          setSettings(2, 2, 3, true);
-        } else if (clientWidth <= resolution.md) {
-          setSettings(3, 3, 4, true);
-        } else if (clientWidth <= resolution.lg) {
-          setSettings(4, 4, 5, true);
-        } else {
-          if (isChannelPage) {
-            setSettings(
-              oldSettings.channelVideoPerRow,
-              oldSettings.postsPerRow,
-              oldSettings.channelSlimItemsPerRow,
-              false
-            );
+    proto.calcElementsPerRow = function (a, b) {
+      // return 7;
+      // fix for "Breaking news" section for a large resolution
+      if (!responsive) {
+        return a === 194 ? settings.slimItemsPerRow : settings.elementsPerRow;
+      }
+
+      // fix "Breaking news" section for a small resolution
+      if (a === 310) return settings.elementsPerRow;
+
+      // fix "Short reels" section for a small resolution
+      if (a === 194) return settings.slimItemsPerRow;
+
+      return this.calcElementsPerRow733(a, b);
+    };
+
+    proto.calcMaxSlimElementsPerRow733 = proto.calcMaxSlimElementsPerRow;
+
+    proto.calcMaxSlimElementsPerRow = function (a, b, c) {
+      if (!responsive) return settings.slimItemsPerRow;
+      return this.calcMaxSlimElementsPerRow733(a, b, c);
+    };
+    proto.refreshGridLayout = function () {
+      responsive = true;
+
+      const isChannelPage = this.isChannelPage;
+      const clientWidth = this.hostElement.clientWidth;
+
+      // break point for smaller resolution
+      if (settings.dynamicVideoPerRow) {
+        if (clientWidth > 0) {
+          if (clientWidth <= resolution.sm) {
+            setSettings(2, 2, 3, true);
+          } else if (clientWidth <= resolution.md) {
+            setSettings(3, 3, 4, true);
+          } else if (clientWidth <= resolution.lg) {
+            setSettings(4, 4, 5, true);
           } else {
-            setSettings(
-              oldSettings.elementsPerRow,
-              oldSettings.postsPerRow,
-              oldSettings.slimItemsPerRow,
-              false
-            );
+            if (isChannelPage) {
+              setSettings(
+                oldSettings.channelVideoPerRow,
+                oldSettings.postsPerRow,
+                oldSettings.channelSlimItemsPerRow,
+                false
+              );
+            } else {
+              setSettings(
+                oldSettings.elementsPerRow,
+                oldSettings.postsPerRow,
+                oldSettings.slimItemsPerRow,
+                false
+              );
+            }
           }
         }
-      }
-    } else {
-      if (isChannelPage) {
-        setSettings(
-          settings.channelVideoPerRow,
-          settings.postsPerRow,
-          settings.channelSlimItemsPerRow,
-          false
-        );
       } else {
-        setSettings(
-          settings.elementsPerRow,
-          settings.postsPerRow,
-          settings.slimItemsPerRow,
-          false
-        );
+        if (isChannelPage) {
+          setSettings(
+            settings.channelVideoPerRow,
+            settings.postsPerRow,
+            settings.channelSlimItemsPerRow,
+            false
+          );
+        } else {
+          setSettings(
+            settings.elementsPerRow,
+            settings.postsPerRow,
+            settings.slimItemsPerRow,
+            false
+          );
+        }
       }
-    }
 
-    const props = [
-      "elementsPerRow",
-      "postsPerRow",
-      "slimItemsPerRow",
-      "gameCardsPerRow",
-    ];
+      const props = [
+        "elementsPerRow",
+        "postsPerRow",
+        "slimItemsPerRow",
+        "gameCardsPerRow",
+      ];
 
-    props.forEach((prop) => {
-      Object.defineProperty(this, prop, {
-        get() {
-          return settings[prop];
-        },
-        set(nv) {
-          return true;
-        },
-        configurable: true,
-        enumerable: true,
+      props.forEach((prop) => {
+        Object.defineProperty(this, prop, {
+          get() {
+            return settings[prop];
+          },
+          set(nv) {
+            return true;
+          },
+          configurable: true,
+          enumerable: true,
+        });
       });
-    });
 
-    const result = oldRefreshGridLayout.apply(this, arguments);
+      const result = oldRefreshGridLayout.apply(this, arguments);
 
-    props.forEach((prop) => {
-      // remove constant properties
-      delete this[prop];
+      props.forEach((prop) => {
+        // remove constant properties
+        delete this[prop];
 
-      // set the values
-      this[prop] = settings[prop];
-    });
+        // set the values
+        this[prop] = settings[prop];
+      });
 
-    return result;
-  };
-});
+      return result;
+    };
+  });
 
-ytZara.ytProtoAsync("ytd-rich-shelf-renderer").then((proto) => {
-  proto.refreshGridLayoutNew = function () {};
-});
+  ytZara.ytProtoAsync("ytd-rich-shelf-renderer").then((proto) => {
+    proto.refreshGridLayoutNew = function () {};
+  });
+})();
