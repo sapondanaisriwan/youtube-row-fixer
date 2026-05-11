@@ -16,6 +16,9 @@ export const KeyChannelPageVideoPerRow = "channelPageVideoPerRow";
 export const KeyChannelPageShelfItemPerRow = "channelPageShelfItemPerRow";
 export const KeyChannelPageWideLayout = "channelPageWideLayout";
 
+// Watch Page
+export const KeyFixSuggestedVideos = "fixSuggestedVideos";
+
 export const settingKey = [
   KeyExtensionStatus,
   KeyExtensionTheme,
@@ -31,6 +34,8 @@ export const settingKey = [
   KeyChannelPageVideoPerRow,
   KeyChannelPageShelfItemPerRow,
   KeyChannelPageWideLayout,
+
+  KeyFixSuggestedVideos,
 ];
 
 export const defaultSetting = {
@@ -48,4 +53,6 @@ export const defaultSetting = {
   [KeyChannelPageWideLayout]: false,
   [KeyChannelPageVideoPerRow]: 5,
   [KeyChannelPageShelfItemPerRow]: 8,
+
+  [KeyFixSuggestedVideos]: false,
 };
