@@ -1,44 +1,29 @@
-const THUMBNAIL_WIDTH = "168px";
-
-const CLASSES_TO_REMOVE = [
-  "ytLockupMetadataViewModelMoveLockupOverflowMenuToBottomRight",
-  "ytLockupMetadataViewModelBottomRight",
-];
-
-let observer = null;
-
-function fixCard(card) {
-  const thumbnail = card.querySelector(".ytLockupViewModelContentImage");
-  if (thumbnail && thumbnail.style.width !== THUMBNAIL_WIDTH) {
-    thumbnail.style.width = THUMBNAIL_WIDTH;
-  }
-  CLASSES_TO_REMOVE.forEach((cls) => {
-    const el = card.querySelector(`.${cls}`);
-    if (el) el.classList.remove(cls);
-  });
-}
-
-function fixSuggestedVideos() {
-  const secondary = document.querySelector(
-    "ytd-watch-next-secondary-results-renderer"
-  );
-  if (!secondary) return;
-  secondary.querySelectorAll(".ytLockupViewModelHost").forEach(fixCard);
-}
+import { KeyFixSuggestedVideos } from "../../../data/storage-key";
+import { addStyle } from "../utils/addStyle";
+import { removeElementById } from "../utils/removeElement";
 
 export const optionFixSuggestedVideos = (enabled) => {
-  if (observer) {
-    observer.disconnect();
-    observer = null;
+  if (!enabled) {
+    removeElementById(KeyFixSuggestedVideos);
+    return;
   }
-  if (!enabled) return;
 
-  fixSuggestedVideos();
-
-  observer = new MutationObserver((mutations) => {
-    if (mutations.some((m) => m.addedNodes.length > 0)) {
-      fixSuggestedVideos();
+  addStyle(
+    KeyFixSuggestedVideos,
+    `
+    ytd-watch-next-secondary-results-renderer .ytLockupViewModelContentImage {
+      width: 168px !important;
     }
-  });
-  observer.observe(document.body, { childList: true, subtree: true });
+    ytd-watch-next-secondary-results-renderer .ytLockupMetadataViewModelMoveLockupOverflowMenuToBottomRight {
+      min-height: unset !important;
+    }
+    ytd-watch-next-secondary-results-renderer .ytLockupMetadataViewModelMenuButton.ytLockupMetadataViewModelBottomRight {
+      top: -6px !important;
+      right: -10px !important;
+      bottom: unset !important;
+      opacity: 1 !important;
+      transition: none !important;
+    }
+    `
+  );
 };
