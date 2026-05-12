@@ -6,6 +6,7 @@ import {
   KeyChannelPageWideLayout,
   KeyDisplayFullTitle,
   KeyDynamicVideo,
+  KeyFixSuggestedVideos,
   KeyHideChannelProfile,
   KeyHideShort,
   KeyPostPerRow,
@@ -51,6 +52,17 @@ function Main() {
             storageKey={KeyShelfItemPerRow}
             maxValue={12}
             minValue={1}
+            borderBottom={false}
+          />
+        </div>
+      </div>
+      <div className="flex flex-col bg-content2 dark:bg-background">
+        <p className="bg-content1 dark:bg-background text-small font-semibold pt-6 pb-2">Watch page</p>
+        <div className="bg-content1 rounded-lg overflow-hidden">
+          <SwitchControl
+            label="Fix suggested videos layout"
+            description={"Restore thumbnail size and menu position in the sidebar"}
+            storageKey={KeyFixSuggestedVideos}
             borderBottom={false}
           />
         </div>

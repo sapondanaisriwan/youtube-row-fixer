@@ -1,12 +1,14 @@
 import {
   KeyChannelPageWideLayout,
   KeyDisplayFullTitle,
+  KeyFixSuggestedVideos,
   KeyHideChannelProfile,
   KeyHideShort,
   KeyShelfItemPerRow,
   KeyVideoPerRow,
 } from "../../../data/storage-key";
 import { optionDisplayFullTitle } from "./displayFullTitle";
+import { optionFixSuggestedVideos } from "./fixSuggestedVideos";
 import { optionHideChannelProfile } from "./hideChannelProfile";
 import { optionHideShort } from "./hideShort";
 import { optionShortsPerRow } from "./shortsPerRow";
@@ -20,4 +22,5 @@ export const injectAllChanges = (data) => {
   optionHideShort(data[KeyHideShort]);
   optionWideChannelLayout(data[KeyChannelPageWideLayout]);
   optionShortsPerRow(data[KeyShelfItemPerRow]);
+  optionFixSuggestedVideos(data[KeyFixSuggestedVideos]);
 };
