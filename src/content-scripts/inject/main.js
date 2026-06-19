@@ -3,6 +3,10 @@ import port from "../modules/utils/port";
 
 const settings = {};
 const oldSettings = {};
+let resolveSettingsReady;
+const settingsReady = new Promise((resolve) => {
+  resolveSettingsReady = resolve;
+});
 
 const resolution = {
   lg: 1000,
@@ -12,7 +16,27 @@ const resolution = {
 
 // Event handler function to handle the received data event
 const handleDataEvent = (obj) => {
-  const { data } = JSON.parse(obj.detail);
+  let data;
+  try {
+    ({ data } = JSON.parse(obj.detail));
+  } catch (error) {
+    return;
+  }
+
+  const numericSettings = [
+    "videoPerRow",
+    "postPerRow",
+    "shelfItemPerRow",
+    "channelPageVideoPerRow",
+    "channelPageShelfItemPerRow",
+  ];
+  if (
+    !data ||
+    numericSettings.some((key) => !Number.isFinite(data[key]) || data[key] <= 0)
+  ) {
+    return;
+  }
+
   settings.dynamicVideoPerRow = data.dynamicVideoPerRow;
   settings.elementsPerRow = data.videoPerRow;
   settings.postsPerRow = data.postPerRow;
@@ -33,6 +57,7 @@ const handleDataEvent = (obj) => {
   oldSettings.channelVideoPerRow = data.channelPageVideoPerRow;
   oldSettings.channelSlimItemsPerRow = data.channelPageShelfItemPerRow;
 
+  resolveSettingsReady();
   reflowLayout(data);
 };
 
@@ -127,11 +152,33 @@ const observablePromise = (proc, timeoutPromise) => {
     return document.querySelector("ytd-page-manager");
   }).obtain();
 
+  // Retry after YouTube has initialized in case the bridge was not listening
+  // to the document_start request yet. Never patch with empty settings.
+  port.callEvent({ name: eventGetRowFixerData, detail: {} });
+  await settingsReady;
+
   ytZara.ytProtoAsync("ytd-rich-grid-renderer").then((proto) => {
+    const patchKey = Symbol.for("youtube-row-fixer.rich-grid-patch");
+    if (proto[patchKey]) {
+      return;
+    }
+
+    const oldCalcElementsPerRow = proto.calcElementsPerRow;
+    const oldCalcMaxSlimElementsPerRow = proto.calcMaxSlimElementsPerRow;
     const oldRefreshGridLayout = proto.refreshGridLayout;
 
-    proto.calcElementsPerRow733 = proto.calcElementsPerRow;
-    proto.reflowContent733 = proto.reflowContent;
+    if (
+      typeof oldCalcElementsPerRow !== "function" ||
+      typeof oldRefreshGridLayout !== "function"
+    ) {
+      return;
+    }
+
+    Object.defineProperty(proto, patchKey, {
+      value: true,
+      configurable: false,
+      enumerable: false,
+    });
 
     proto.calcElementsPerRow = function (a, b) {
       // return 7;
@@ -146,15 +193,16 @@ const observablePromise = (proc, timeoutPromise) => {
       // fix "Short reels" section for a small resolution
       if (a === 194) return settings.slimItemsPerRow;
 
-      return this.calcElementsPerRow733(a, b);
+      return oldCalcElementsPerRow.apply(this, arguments);
     };
 
-    proto.calcMaxSlimElementsPerRow733 = proto.calcMaxSlimElementsPerRow;
+    if (typeof oldCalcMaxSlimElementsPerRow === "function") {
+      proto.calcMaxSlimElementsPerRow = function () {
+        if (!responsive) return settings.slimItemsPerRow;
+        return oldCalcMaxSlimElementsPerRow.apply(this, arguments);
+      };
+    }
 
-    proto.calcMaxSlimElementsPerRow = function (a, b, c) {
-      if (!responsive) return settings.slimItemsPerRow;
-      return this.calcMaxSlimElementsPerRow733(a, b, c);
-    };
     proto.refreshGridLayout = function () {
       responsive = true;
 
@@ -226,17 +274,17 @@ const observablePromise = (proc, timeoutPromise) => {
         });
       });
 
-      const result = oldRefreshGridLayout.apply(this, arguments);
+      try {
+        return oldRefreshGridLayout.apply(this, arguments);
+      } finally {
+        props.forEach((prop) => {
+          // remove constant properties
+          delete this[prop];
 
-      props.forEach((prop) => {
-        // remove constant properties
-        delete this[prop];
-
-        // set the values
-        this[prop] = settings[prop];
-      });
-
-      return result;
+          // set the values
+          this[prop] = settings[prop];
+        });
+      }
     };
   });
 

@@ -1,9 +1,5 @@
 import message from "../data/message";
-import {
-  allScriptIds,
-  scriptContentScript,
-  scriptInjectScript,
-} from "../data/scriptId";
+import { scriptContentScript, scriptInjectScript } from "../data/scriptId";
 import { KeyExtensionStatus } from "../data/storage-key";
 import { getStorage } from "../utils/browserStorage";
 import {
@@ -29,27 +25,28 @@ chrome.runtime.onInstalled.addListener(async ({ reason }) => {
 
 const main = async () => {
   try {
-    const matchingScripts = await getRegisteredScripts();
+    const registeredScripts = await getRegisteredScripts();
+    const registeredIds = new Set(registeredScripts.map(({ id }) => id));
 
-    if (matchingScripts) {
-      return;
+    if (!registeredIds.has(scriptContentScript)) {
+      await injectScript({
+        id: scriptContentScript,
+        files: ["inject/bridge.js"],
+      });
     }
-
-    await injectScript({
-      id: scriptContentScript,
-      files: ["inject/bridge.js"],
-    });
-    await injectScript({
-      id: scriptInjectScript,
-      world: "MAIN",
-      files: ["inject/lib/ytZara.js", "inject/inject_script.js"],
-    });
+    if (!registeredIds.has(scriptInjectScript)) {
+      await injectScript({
+        id: scriptInjectScript,
+        world: "MAIN",
+        files: ["inject/lib/ytZara.js", "inject/inject_script.js"],
+      });
+    }
   } catch (err) {
     console.log(err);
   }
 };
 
-chrome.storage.onChanged.addListener(async (changes) => {
+const updateRegisteredScripts = async () => {
   try {
     const extensionStatus = await getStorage(KeyExtensionStatus);
 
@@ -58,18 +55,20 @@ chrome.storage.onChanged.addListener(async (changes) => {
       return;
     }
 
-    const matchingScripts = await getRegisteredScripts();
-    if (!matchingScripts) {
+    const registeredScripts = await getRegisteredScripts();
+    if (!registeredScripts.length) {
       return;
     }
-    await unregisterScripts(allScriptIds);
+    await unregisterScripts(registeredScripts.map(({ id }) => id));
   } catch (err) {
     console.log(err);
   }
-});
+};
 
-// initial inject the
-main();
+chrome.storage.onChanged.addListener(updateRegisteredScripts);
+
+// Restore the persisted enabled/disabled state when the service worker starts.
+updateRegisteredScripts();
 
 // chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 //   const messageHandler = async () => {
