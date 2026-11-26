@@ -6,6 +6,7 @@ export const KeyExtensionTheme = "extensionTheme";
 export const KeyHideChannelProfile = "hideChannelProfile";
 export const KeyHideShort = "hideShort";
 export const KeyDisplayFullTitle = "displayFullTitle";
+export const KeyMetadataTitles = "metadataTitles";
 export const KeyDynamicVideo = "dynamicVideoPerRow";
 export const KeyVideoPerRow = "videoPerRow";
 export const KeyPostPerRow = "postPerRow";
@@ -24,6 +25,7 @@ export const settingKey = [
   KeyHideChannelProfile,
   KeyHideShort,
   KeyDisplayFullTitle,
+  KeyMetadataTitles,
   KeyVideoPerRow,
   KeyPostPerRow,
   KeyShelfItemPerRow,
@@ -41,6 +43,7 @@ export const defaultSetting = {
   [KeyHideChannelProfile]: true,
   [KeyHideShort]: false,
   [KeyDisplayFullTitle]: false,
+  [KeyMetadataTitles]: false,
   [KeyVideoPerRow]: 5,
   [KeyPostPerRow]: 3,
   [KeyShelfItemPerRow]: 12,
