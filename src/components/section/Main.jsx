@@ -8,6 +8,7 @@ import {
   KeyDynamicVideo,
   KeyHideChannelProfile,
   KeyHideShort,
+  KeyMetadataTitles,
   KeyPostPerRow,
   KeyShelfItemPerRow,
   KeyVideoPerRow,
@@ -30,6 +31,11 @@ function Main() {
           <SwitchControl
             label="Show full video titles"
             storageKey={KeyDisplayFullTitle}
+          />
+          <SwitchControl
+            label="Show tooltips on video info"
+            description={"Hover channel name, views or date to see the full text"}
+            storageKey={KeyMetadataTitles}
           />
           <SwitchControl
             label="Auto-adjust videos per row"
